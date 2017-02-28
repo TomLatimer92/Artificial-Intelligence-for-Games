@@ -1,0 +1,25 @@
+Spike Outcome Report
+-------------------- 
+Number: ##
+Spike Title: ######
+Personal: Your name and student id
+
+Goals:  
+#### (copy the spike plan goal)
+
+Technologies, Tools, and Resources used:
+#### (list of information needed by someone trying to reproduce your work)
+
+Tasks undertaken: 
+* #### (show key tasks likely to help another developer)
+
+What we found out:
+* #### Graph/Screen shot/outcome list/notes
+
+Open issues/risks [Optional]:
+* #### List out the issues and risks that you have been unable to resolve at the end of the spike. You may have uncovered a whole range of new risks as well
+* eg. Risk xyz (new)
+
+Recommendations [Optional]:
+* ### You may state that another spike is required to resolve new issues identified (or) indicate that this
+spike has increased the teams confidence in XYZ and move on.

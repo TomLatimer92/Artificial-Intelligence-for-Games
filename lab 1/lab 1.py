@@ -23,14 +23,14 @@ while Running and Alive:
    Game_Time += 1
 
     # Sleeping: reduces tired state, hunger still increases though.
-    # if current_state is 'sleeping':
+      if Current_State is 'Sleeping':
     # Do things for this state
-    # print("Zzzzzz")
-    # tired -= 1
-    # hunger += 1
+      print("Zzzzzz")
+      Tired -= 1
+      Hunger += 1
     # Check for change state
-    # if tired < 5:
-    # current_state = 'awake'
+      if Tired < 5:
+      Current_State = 'Awake'
 	
 	 # Defence: Reduces damage, Health still decreases
     if current_state is 'Defence':
@@ -42,19 +42,19 @@ while Running and Alive:
             Current_State = 'Attack'
 
     # Awake: does nothing interesting. gets hunugry. gets tired
-    # elif current_state is 'awake':
+      elif Current_State is 'Awake':
     # Do things for this state
-    # print("Bored.... BORED! ...")
-    # tired += 1
-    # hunger += 1
+      print("Bored.... BORED! ...")
+      Tired += 1
+      Hunger += 1
     # Check for change state
-    # if hunger > 7:
-    # current_state = 'eating'
-    # if tired > 16:
-    # current_state = 'sleeping'
+      if Hunger > 7:
+       Current_State = 'Eating'
+      if Tired > 16:
+       Current_State = 'Sleeping'
 			
 	# Support: Heals Either Defending or Attacking Player. 
-    elif current_state is 'Support':
+    elif Current_State is 'Support':
         # Do things for this state
         print("Healing Player...")
         Health += 5:
@@ -65,17 +65,17 @@ while Running and Alive:
             current_state = 'Defence'
             
     # Eating: reduces hunger, still gets tired
-    # elif current_state is 'eating':
+      elif Current_State is 'Eating':
     # Do things for this state
-    # print("Num, num, num...")
-    # tired += 1
-    # hunger -= 1
+      print("Num, num, num...")
+      Tired += 1
+      Hunger -= 1
     # Check for change state
-    # if hunger < 8:
-    # current_state = 'awake'
+      if Hunger < 8:
+       Current_State = 'Awake'
 			
 	# Attack: Attacks Defending player, causes damage
-    elif current_state is 'Attack':
+    elif Current_State is 'Attack':
         # Do things for this state
         print("Attacking Defending Player")
         Health -= 3
@@ -85,19 +85,14 @@ while Running and Alive:
         if Health < 20:
             current_state = 'Attack'
             
-    # check for broken ... :(
-    # else:
-    # print("AH! BROKEN .... how did you get here?")
-    # die() # not a real function - just breaks things! :)
-	
 	# check for broken ... :(
     else:
         print("AH! BROKEN")
         die() 
 	# not a real function - just breaks things! :)
 
-    # if hunger > 20:
-    # alive = False
+      if hunger > 20:
+       alive = False
 		
 	    if Health = 0;
 	    alive = False

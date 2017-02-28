@@ -1,0 +1,16 @@
+Spike Plan Template
+-------------------
+Title:
+
+Context:
+
+Knowledge/Skill Gap:
+
+Goals/Deliverables:
+
+Start-End Period: ##-##
+
+Planning Notes:
+
+Extensions:
+
