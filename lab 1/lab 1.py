@@ -32,8 +32,8 @@ while Running and Alive:
       if Tired < 5:
       Current_State = 'Awake'
 	
-	 # Defence: Reduces damage, Health still decreases
-    if current_state is 'Defence':
+        # Defence: Reduces damage, Health still decreases
+        if current_state is 'Defence':
         # Do things for this state
         print("Blocked Attack")
         Health -= 3
@@ -54,7 +54,7 @@ while Running and Alive:
        Current_State = 'Sleeping'
 			
 	# Support: Heals Either Defending or Attacking Player. 
-    elif Current_State is 'Support':
+        elif Current_State is 'Support':
         # Do things for this state
         print("Healing Player...")
         Health += 5:
@@ -75,7 +75,7 @@ while Running and Alive:
        Current_State = 'Awake'
 			
 	# Attack: Attacks Defending player, causes damage
-    elif Current_State is 'Attack':
+        elif Current_State is 'Attack':
         # Do things for this state
         print("Attacking Defending Player")
         Health -= 3
@@ -86,7 +86,7 @@ while Running and Alive:
             current_state = 'Attack'
             
 	# check for broken ... :(
-    else:
+        else:
         print("AH! BROKEN")
         die() 
 	# not a real function - just breaks things! :)

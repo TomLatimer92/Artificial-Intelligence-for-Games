@@ -1,0 +1,6 @@
+repo: 55d57866147571b69b7214b104f24c354f1e0520
+node: 92e2d1e07fdfc65aa2245fff79427566cb23db7b
+branch: default
+latesttag: pyglet-1.2.2
+latesttagdistance: 370
+changessincelatesttag: 529

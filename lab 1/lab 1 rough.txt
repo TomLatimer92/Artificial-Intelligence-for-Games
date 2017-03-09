@@ -1,0 +1,70 @@
+# Three state machine example ... bad code included.
+# There is no section as to where the states and other variables should go. IT is recommended to insert them at the top of the page like any other oop language.
+
+# variables
+Health = 0
+Damage = 0
+Block = 0
+
+# States that will be used throughout the program.
+states = ['Defence','Attack','Support']
+Current_State = 'Defence'
+
+# Other Variables
+Running = True
+Alive = True
+Max_Limit = 100
+Game_Time = 0
+
+# While statement used when certain states are met.
+while Running and Alive:
+   Game_Time += 1
+	
+        # Defence: Reduces damage, Health still decreases
+        if current_state is 'Defence':
+        # Do things for this state
+        print("Blocked Attack")
+        Health -= 3
+        # Check for change state
+        if Defence = Block:
+            Current_State = 'Attack'
+			
+	# Support: Heals Either Defending or Attacking Player. 
+        elif Current_State is 'Support':
+        # Do things for this state
+        print("Healing Player...")
+        Health += 5:
+        # Check for change state
+        if Health = 20:
+            Current_State = 'Attack'
+        if Health < 20:
+            current_state = 'Defence'
+			
+	# Attack: Attacks Defending player, causes damage
+        elif Current_State is 'Attack':
+        # Do things for this state
+        print("Attacking Defending Player")
+        Health -= 3
+        # Check for change state
+        if Health = 20:
+            Current_State = 'Defence'
+        if Health < 20:
+            current_state = 'Attack'
+            
+	# check for broken ... :(
+        else:
+        print("AH! BROKEN")
+        die() 
+	# not a real function - just breaks things! :)
+		
+	    if Health = 0;
+	    alive = False
+        
+    # Check for end of game time
+    if game_time > max_limit:
+        running = False
+
+print('-- The End --')
+
+
+    
