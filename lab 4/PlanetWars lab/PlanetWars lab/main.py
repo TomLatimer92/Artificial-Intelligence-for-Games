@@ -1,4 +1,4 @@
-''' Deceptive PlanetWars Simulation
+'''Deceptive PlanetWars Simulation
 
 Created by Michale Jensen (2011) and Clinton Woodward (2012)
 contact: cwoodward@swin.edu.au
@@ -10,7 +10,6 @@ Updated 2015
 '''
 
 from planet_wars import PlanetWars
-
 from pyglet import window, clock, app, resource, sprite
 from pyglet.window import key
 from pyglet.gl import *
@@ -327,8 +326,8 @@ class PlanetWarsWindow(window.Window):
         glPopMatrix()
 
     def line(self, x1=0, y1=0, x2=0, y2=0, pos1=None, pos2=None):
-        ''' Draw a single line. Either with xy values, or two position (that
-            contain x and y values). Uses existing colour and stroke values. '''
+        '''Draw a single line. Either with xy values, or two position (that
+            contain x and y values). Uses existing colour and stroke values.'''
         if pos1 is not None and pos2 is not None:
             x1, y1, x2, y2 = pos1[0], pos1[1], pos2[0], pos2[1]
         glBegin(GL_LINES)

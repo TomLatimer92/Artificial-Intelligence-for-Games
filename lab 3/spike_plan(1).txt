@@ -1,10 +1,13 @@
 Spike Plan Template
 -------------------
-Title:
+Title: Spike 3 - Goal Oriented Behaviour
 
-Context:
+Context: Goal Oriented Behaviour (GOB) is a simple approach to creating game agents that can
+perform actions based on an overriding "goals" which gives their behaviour direction and
+purpose.
 
-Knowledge/Skill Gap:
+Knowledge/Skill Gap: Developers need to be aware of the limits of simple goal insistence (SGI) when used to
+resolve action selection using goal-oriented behaviour (GOB).
 
 Goals/Deliverables:
 

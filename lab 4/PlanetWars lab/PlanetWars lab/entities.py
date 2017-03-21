@@ -16,9 +16,8 @@ NEUTRAL_ID = 0
 
 class Entity(object):
 
-    ''' Abstract class representing entities in the 2d game world.
-        See Fleet and Planet classes.
-    '''
+    '''Abstract class representing entities in the 2d game world.
+        See Fleet and Planet classes.'''
 
     def __init__(self, x, y, id, owner_id, num_ships):
         self.x = x
@@ -59,7 +58,7 @@ class Entity(object):
         return self.vision_age == 0
 
     def in_range(self, entities):
-        ''' Returns a list of entity id's that are within vision range of this entity.'''
+        '''Returns a list of entity id's that are within vision range of this entity.'''
         limit = self.vision_range()
         return [p.id for p in entities if self.distance_to(p) <= limit]
 
@@ -67,11 +66,10 @@ class Entity(object):
         return "%s, owner: %s, ships: %d" % (self._name, self.owner_id, self.num_ships)
 
 class Planet(Entity):
-    ''' A planet in the game world. When occupied by a player, the planet
+    '''A planet in the game world. When occupied by a player, the planet
         creates new ships each time step (when `update` is called). Each
         planet also has a `vision_range` which is partially proportional
-        to the growth rate (size).
-    '''
+        to the growth rate (size).'''
     PLANET_RANGE = 5
     PLANET_FACTOR = 0
 
@@ -80,32 +78,29 @@ class Planet(Entity):
         self.growth_rate = growth_rate
 
     def update(self):
-        ''' If the planet is owned, grow the number of ships (advancement). '''
+        '''If the planet is owned, grow the number of ships (advancement).'''
         if self.owner_id != NEUTRAL_ID:
             self.add_ships(self.growth_rate)
         self.was_battle = False
 
     def vision_range(self):
-        ''' The size of the planet will add some vision range with the formula:
-            totalrange = PLANET_RANGE + (planet.growth_rate * PLANET_FACTOR)
-        '''
+        '''The size of the planet will add some vision range with the formula:
+            totalrange = PLANET_RANGE + (planet.growth_rate * PLANET_FACTOR)'''
         return self.PLANET_RANGE + (self.growth_rate * self.PLANET_FACTOR)
 
     def copy(self):
-        ''' Provides a copy of the Planet instance. '''
+        '''Provides a copy of the Planet instance.'''
         p = Planet(self.x, self.y, self.id, self.owner_id, self.num_ships, self.growth_rate)
         p.was_battle = self.was_battle
         return p
 
 class Fleet(Entity):
 
-    ''' A fleet in the game world. Each fleet is owned by a player and launched
+    '''A fleet in the game world. Each fleet is owned by a player and launched
         from either a planet or a fleet (mid-flight). All fleets move at the
         same speed each game step.
-
         Fleet id values are deliberately obscure (using UUID) to remove any
-        possible value an enemy players might gather from it.
-    '''
+        possible value an enemy players might gather from it.'''
     FLEET_RANGE = 2
     # the size of the fleet will add some vision range
     # with the formula: totalrange = FLEET_RANGE + (fleet.num_ships * FLEET_FACTOR)
@@ -132,7 +127,7 @@ class Fleet(Entity):
         return self.FLEET_RANGE + (self.num_ships * self.FLEET_FACTOR)
 
     def update(self):
-        ''' Move the fleet (progress) by one game time step.'''
+        '''Move the fleet (progress) by one game time step.'''
         self.turns_remaining -= 1
         # update position and progress
         src = self.src
@@ -143,7 +138,7 @@ class Fleet(Entity):
         self.progress = self.total_trip_length - self.turns_remaining
 
     def copy(self):
-        ''' Provides a copy of the Fleet instance, with copies of the src and dest. '''
+        '''Provides a copy of the Fleet instance, with copies of the src and dest.'''
         f = Fleet(self.id, self.owner_id, self.num_ships, self.src.copy(), self.dest.copy(), self.progress)
         f.x, f.y, f.turns_remaining = self.x, self.y, self.turns_remaining
         return f

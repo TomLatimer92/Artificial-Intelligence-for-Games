@@ -19,16 +19,12 @@ Action: sleep on sofa (Sleep -= 2)
 
 Notes:
 * This version is simply based on dictionaries and functions.
-
 '''
 
 VERBOSE = True
 
 # Global goals with initial values
-goals = {
-    'Eat': 4,
-    'Sleep': 3,
-}
+goals = {'Eat': 4,'Sleep': 3,}
 
 # Global (read-only) actions and effects
 actions = {
@@ -56,8 +52,8 @@ def action_utility(action, goal):
     'Eat' goal. Larger (more positive) numbers mean the action is more
     beneficial.
     '''
+	
     ### Simple version - the utility is the change to the specified goal
-
     if goal in actions[action]:
         # Is the goal affected by the specified action?
         return -actions[action][goal]

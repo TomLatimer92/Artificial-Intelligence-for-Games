@@ -3,15 +3,13 @@ from entities import NEUTRAL_ID
 
 class GameInfo(object):
 
-    ''' This is the facade of game information given to each "bot" controller
+    '''This is the facade of game information given to each "bot" controller
         each `update` call. It contains the players unique view of the game
         (limited by fog-of-war).
-
         It also has bound to it player-specific `log`, `planet_order` and
         `fleet_order` functions which a bot can call to make notes and issue
         orders. It is up to the PlanetWars instance to "process" pending orders,
-        and so enforce any required game limits or rules.
-    '''
+        and so enforce any required game limits or rules.'''
     NEUTRAL_ID = NEUTRAL_ID
 
     def __init__(self, fleet_order, planet_order, logger):
@@ -48,19 +46,16 @@ class GameInfo(object):
 
 class Player(object):
 
-    ''' This is used by the actual `PlanetWars` game instance to represent each
+    '''This is used by the actual `PlanetWars` game instance to represent each
         player, and also finds, creates and contains the "bot" controller
         instance specified by `name`.
-
         Each game step `update` the Player instance refreshes the GameInfo
         instance and passes it to the bot controller, which then issues orders
         (via the facade). The orders may be ignored if they are invalid.
-
         The facade details represent a "fog-of-war" view of the true game
         environment. A player bot can only "see" what is in range of it's own
         occupied planets or fleets in transit across the map. This creates an
-        incentive for bots to exploit scout details.
-    '''
+        incentive for bots to exploit scout details.'''
 
     def __init__(self, id, name, color, log, cfg):
         self.id = id  # as allocated by the game
@@ -85,7 +80,7 @@ class Player(object):
         return "%s(id=%s)" % (self.name, str(self.id))
 
     def refresh_gameinfo(self):
-        ''' Update the player's view (facade) of planets/fleets  '''
+        '''Update the player's view (facade) of planets/fleets.'''
         # set handy lists of planets/fleet id's
         self.gameinfo.clear()
         # set planet details
@@ -112,20 +107,18 @@ class Player(object):
         return self.num_ships > 0
 
     def fleet_order(self, src_fleet, dest, num_ships):
-        ''' Order fleet to divert (some/all) fleet ships to a destination planet.
+        '''Order fleet to divert (some/all) fleet ships to a destination planet.
             Note: this is just a request for it to be done, and fleetid is our reference
-            if it is done, but no guarantee - the game decides and enforces the rules.
-        '''
+            if it is done, but no guarantee - the game decides and enforces the rules.'''
         # If source fleet splitting we'll need a new fleet_id else keep old one
         fleetid = uuid.uuid4() if num_ships < src_fleet.num_ships else src_fleet.id
         self.orders.append(('fleet', src_fleet.id, fleetid, num_ships, dest.id))
         return fleetid
 
     def planet_order(self, src_planet, dest, num_ships):
-        ''' Order planet to launch a new fleet to the destination planet.
+        '''Order planet to launch a new fleet to the destination planet.
             Note: this is just a request for it to be done, and fleetid is our reference
-            if it is done, but no guarantee - the game decides and enforces the rules.
-        '''
+            if it is done, but no guarantee - the game decides and enforces the rules.'''
         fleetid = uuid.uuid4()
         self.orders.append(('planet', src_planet.id, fleetid, num_ships, dest.id))
         return fleetid

@@ -12,7 +12,6 @@ Notes/Tips:
 * Internal class helper functions are marked by a leading "_"
 * All class methods also have "self" as their first parameter
 * All class variables/methods need to have a leading "self." 
-
 '''
 
 from random import randrange
@@ -40,7 +39,7 @@ class TicTacToe(object):
         self.current_player = 'x'
 
         # Welcome ...
-        print 'Welcome to the amazing+awesome tic-tac-toe!'
+        print ("Welcome to the amazing+awesome tic-tac-toe!")
         # Show help (number) details
         self.show_human_help()
         # show the initial board and the current player's move
@@ -56,10 +55,10 @@ class TicTacToe(object):
             if self.board[self.move] == ' ':
                 return True
             else:
-                print '>> Sorry - that position is already taken!'
+                print (">> Sorry - that position is already taken!")
                 return False
         except:
-            print '>> %s is not a valid position! Must be int between 0 and 8.' % self.move
+            print (">> %s is not a valid position! Must be int between 0 and 8.") % self.move
             return False
         
     def _check_for_result(self):
@@ -71,7 +70,7 @@ class TicTacToe(object):
         for row in self.WIN_SET:
             if board[row[0]] == board[row[1]] == board[row[2]] != ' ':
                 return board[row[0]] 
-				# return an 'x' or 'o' to indicate winner
+		# return an 'x' or 'o' to indicate winner
     
         if ' ' not in board:
             return 'tie'
@@ -82,11 +81,11 @@ class TicTacToe(object):
     # agent (human or AI) functions
     
     def get_human_move(self):
-        '''Get a human players raw input '''
-        return raw_input('[0-8] >> ')
+        '''Get a human players raw input'''
+        return input('[0-8] >> ')
     
     def get_ai_move(self):
-        '''Get the AI's next move '''
+        '''Get the AI's next move'''
         # A simple dumb random move - valid or NOT! 
         # Note: It is the models responsibility to check for valid moves...
         return randrange(9) # [0..8]
@@ -118,25 +117,25 @@ class TicTacToe(object):
             else:
                 self.current_player = 'x'
         else:
-            print 'Try again'
+            print ("Try again")
         
     def render_board(self):
         '''Display the current game board to screen.'''
         board = self.board
-        print '    %s | %s | %s' % tuple(self.board[:3])
-        print '   -----------'
-        print '    %s | %s | %s' % tuple(self.board[3:6])
-        print '   -----------'
-        print '    %s | %s | %s' % tuple(self.board[6:])
+        print ("%s | %s | %s" % tuple(self.board[:3]))
+        print ("-----------")
+        print ("%s | %s | %s" % tuple(self.board[3:6]))
+        print ("-----------")
+        print ("%s | %s | %s" % tuple(self.board[6:]))
         
         # pretty print the current player name
         if self.winner is None:
-            print 'The current player is: %s' % self.players[self.current_player]
+            print ("The current player is: %s" % self.players[self.current_player])
     
     #===========================================================================
      
     def show_human_help(self):
-        '''Show the player help/instructions. '''
+        '''Show the player help/instructions.'''
         tmp = '''
     To make a move enter a number between 0 - 8 and press enter.  
     The number corresponds to a board position as illustrated:
@@ -147,18 +146,19 @@ class TicTacToe(object):
         ---------
         6 | 7 | 8
         '''
-        print tmp
-        print self.HR
+        
+        print (tmp)
+        print (self.HR)
     
     def show_gameresult(self):
         '''Show the game result winner/tie details'''
-        print self.HR
+        print (self.HR)
         if self.winner == 'tie':
-            print 'TIE!'
+            print ("TIE!")
         else:
-            print '%s is the WINNER!!!' % self.players[self.winner]
-        print self.HR    
-        print 'Game over. Goodbye'
+            print ("%s is the WINNER!!!" % self.players[self.winner])
+        print (self.HR)    
+        print ("Game over. Goodbye")
 
 #==============================================================================
 # Separate the running of the game using a __name__ test. Allows the use of this

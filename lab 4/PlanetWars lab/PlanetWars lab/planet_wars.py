@@ -179,14 +179,12 @@ class PlanetWars(object):
     def _process_orders(self, player):
         ''' Process all pending orders for the player, then clears the orders.
             An order sends ships from a player-owned fleet or planet to a planet.
-
             Checks for valid order conditions:
             - Valid source src (planet or fleet)
             - Valid destination dest (planet only)
             - Source is owned by player
             - Source has ships to launch (>0)
             - Limits number of ships to number available
-
             Invalid orders are modfied (ship number limit) or ignored.
         '''
         player_id = player.id
@@ -228,7 +226,7 @@ class PlanetWars(object):
         player.orders[:] = []
 
     def is_alive(self):
-        ''' Return True if two or more players are still alive. '''
+        ''' Return True if two or more players are still alive.'''
         status = [p for p in self.players.values() if p.is_alive()]
         if len(status) == 1:
             self.winner = status[0]

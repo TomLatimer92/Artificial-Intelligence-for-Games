@@ -1,4 +1,4 @@
-''' Simple "Blank" PlanetWars controller bot.
+'''Simple "Blank" PlanetWars controller bot.
 
 The Bot does nothing, but shows the minimum a bot needs to have. 
 
