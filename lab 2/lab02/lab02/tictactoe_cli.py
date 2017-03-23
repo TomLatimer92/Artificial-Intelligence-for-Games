@@ -42,8 +42,7 @@ HR = '-' * 40
 def check_move():
     '''This function will return True if ``move`` is valid (in the board range 
     and free cell), or print an error message and return False if not valid. 
-    ``move`` is an int board position [0..8].
-    '''
+    ``move`` is an int board position [0..8].'''
     global move
     try:
         move = int(move)
@@ -78,43 +77,42 @@ def get_human_move():
     '''Get a human players raw input. Returns None if a number is not entered.'''
     return input('[0-8] >> ')
 
+# def get_ai_move_Default():
+#     '''Get the AI's next move'''
+#     # A simple dumb random move - valid or NOT!
+#     # Note: It is the models responsibility to check for valid moves...
+#     # [0..8]
+#     # AI behaviour needs to suit the situation
+#     # on the board instead of choosing random numbers
+#     return randrange(9)
+
 def get_ai_move():
-    '''Get the AI's next move'''
-    # A simple dumb random move - valid or NOT! 
-    # Note: It is the models responsibility to check for valid moves...
-    # [0..8]
+#     '''Get the AI's next move'''
+# # check the current results.
     if check_for_result():
+#     # return result.
         return check_for_result()
+#     # Check what moves have been made.
     elif check_move():
+#     # return move.
         return check_move()
+#     #return random if nothing else works.
     else:
         return randrange(9)
-    # AI behaviour needs to suit the situation
-    # on the board instead of choosing random numbers
-##            return randrange(9)
-    for row in WIN_SET:
-        if board[row[0]] == board[row[1]] and board[row[2]] == '':
-            return row[2]
-        elif board[row[1]] == board[row[2]] and board[row[0]] == '':
-            return row[0]
-        elif board[row[0]] == board[row[2]] and board[row[1]] == '':
-            return row[1]
-        else:
-            return None
-          
-         
-##def isSpaceFree(board, move):
-##    # Return true if the passed move is free on the passed board.
-##    return board[move] == ' '
-##
-##def valid_move(self,tile): 
-##    if tile == "X" or tile == "O":
-##        return False
-##   # if self.valid_move(self.board[square]):
-##    else: 
-##        return True
-		
-    
+
+# def get_ai_move():
+# #     '''Get the AI's next move'''
+# #     # Check the possibilities of winning
+#     for row in WIN_SET:
+# #     # if certain spaces in each row the ai will return a result
+#         if board[row[0]] == board[row[1]] and board[row[2]] == ' ':
+#             return row[2]
+#         elif board[row[1]] == board[row[2]] and board[row[0]] == ' ':
+#             return row[0]
+#         elif board[row[0]] == board[row[2]] and board[row[1]] == ' ':
+#             return row[1]
+        # else:
+        #     return randrange(9)
 
 #==============================================================================
 # Standard trinity of game loop methods (functions)
@@ -125,6 +123,7 @@ def process_input():
     global move
     if current_player == 'x':
         move = get_human_move()
+      # move = get_ai_move_2
     else:
         move = get_ai_move()
 
@@ -132,8 +131,7 @@ def update_model():
     '''If the current players input is a valid move, update the board and check 
     the game model for a winning player. If the game is still going, change the
     current player and continue. If the input was not valid, let the player
-    have another go.
-    '''
+    have another go.'''
     global winner, current_player
     
     if check_move():
