@@ -86,33 +86,33 @@ def get_human_move():
 #     # on the board instead of choosing random numbers
 #     return randrange(9)
 
-def get_ai_move():
-#     '''Get the AI's next move'''
-# # check the current results.
+def get_ai_move_2():
+#     '''Get the AI's 2 next move'''
+# check the current results.
     if check_for_result():
-#     # return result.
+    # return result.
         return check_for_result()
-#     # Check what moves have been made.
+    # Check what moves have been made.
     elif check_move():
-#     # return move.
+    # return move.
         return check_move()
-#     #return random if nothing else works.
+    # return random if nothing else works.
     else:
         return randrange(9)
 
-# def get_ai_move():
-# #     '''Get the AI's next move'''
-# #     # Check the possibilities of winning
-#     for row in WIN_SET:
-# #     # if certain spaces in each row the ai will return a result
-#         if board[row[0]] == board[row[1]] and board[row[2]] == ' ':
-#             return row[2]
-#         elif board[row[1]] == board[row[2]] and board[row[0]] == ' ':
-#             return row[0]
-#         elif board[row[0]] == board[row[2]] and board[row[1]] == ' ':
-#             return row[1]
-        # else:
-        #     return randrange(9)
+def get_ai_move():
+    '''Get the AI's next move'''
+    # Check the possibilities of winning
+    for row in WIN_SET:
+    # if certain spaces in each row the ai will return a result
+        if board[row[0]] == board[row[1]] and board[row[2]] == ' ':
+            return row[2]
+        elif board[row[1]] == board[row[2]] and board[row[0]] == ' ':
+            return row[0]
+        elif board[row[0]] == board[row[2]] and board[row[1]] == ' ':
+            return row[1]
+
+    return randrange(9)
 
 #==============================================================================
 # Standard trinity of game loop methods (functions)
@@ -122,10 +122,11 @@ def process_input():
     # save the next move into a global variable
     global move
     if current_player == 'x':
-        move = get_human_move()
-      # move = get_ai_move_2
+      move = get_human_move()
+      # move = get_ai_move()
     else:
         move = get_ai_move()
+       # move = get_ai_move_2
 
 def update_model():
     '''If the current players input is a valid move, update the board and check 
@@ -149,7 +150,6 @@ def update_model():
     
 def render_board():
     '''Display the current game board to screen.'''
-    
     print ("%s | %s | %s " % tuple(board[:3]))
     print ("-----------")
     print ("%s | %s | %s " % tuple(board[3:6]))
