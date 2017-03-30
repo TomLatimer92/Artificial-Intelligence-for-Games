@@ -108,8 +108,10 @@ def choose_action():
             else: 
                 ### 1. use the "action_utility" function to find the utility value of this action
                 ### ...
+
                 ### 2. If it's the best action to take (utility > best_utility), keep it! (utility and action)    
-                ### ...                   
+                ### ...
+
  
     # Return the "best action"
     return best_action
@@ -144,3 +146,4 @@ def run_until_all_goals_zero():
 
 if __name__ == '__main__':
     run_until_all_goals_zero()
+
