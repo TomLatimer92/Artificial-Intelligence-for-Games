@@ -20,11 +20,12 @@ Action: sleep on sofa (Sleep -= 2)
 Notes:
 * This version is simply based on dictionaries and functions.
 '''
-
 VERBOSE = True
 
 # Global goals with initial values
-goals = {'Eat': 4,'Sleep': 3,}
+goals = {'Eat': 4,
+         'Sleep': 3,
+         }
 
 # Global (read-only) actions and effects
 actions = {
@@ -84,7 +85,6 @@ def choose_action():
     #        best_goal = key
 
     if VERBOSE: print('BEST_GOAL:', best_goal, goals[best_goal])
-
     # Find the best (highest utility) action to take.
     # (Not the Pythonic way... but you can change it if you like / want to learn)
     best_action = None
@@ -96,23 +96,28 @@ def choose_action():
 
         # Does this action change the "best goal" we need to change?
         if best_goal in value:
-
             # Do we currently have a "best action" to try? If not, use this one
             if best_action is None:
-                ### 1. store the "key" as the current best_action
-                ### ...
-                ### 2. use the "action_utility" function to find the best_utility value of this best_action
-                ### ...
-
+            ### 1. store the "key" as the current best_action
+                best_action = key;
+            ### 2. use the "action_utility" function to find the best_utility value of this best_action
+                # best_action, best_action_value = max(list(goals.items()), key-lambda item: item[1];
+                # action_utility(best_utility == best_action);
+                best_utility = action_utility(best_action, best_goal);
             # Is this new action better than the current action?
             else: 
-                ### 1. use the "action_utility" function to find the utility value of this action
-                ### ...
-
-                ### 2. If it's the best action to take (utility > best_utility), keep it! (utility and action)    
-                ### ...
-
- 
+            ### 1. use the "action_utility" function to find the utility value of this action
+                # action_utility(utility_value, action);
+                utility = action_utility(key, best_goal);
+                # best_action = key;
+            ### 2. If it's the best action to take (utility > best_utility), keep it! (utility and action)
+                if (utility > best_utility):
+                    best_utility = utility;
+                    best_action = key;
+                # return utility, action;
+                # for best_action in utility:
+                #   if utility > utility_value:
+                #       return utility, action;
     # Return the "best action"
     return best_action
 
