@@ -1,14 +1,11 @@
 '''3x3 matrix class for 2d operations on 2d points
-
 Created for COS30002 AI for Games by Clinton Woodward cwoodward@swin.edu.au
 Updated by Steve Dower
 '''
-
 from math import cos, sin
 
 class Matrix33(object):
     '''3x3 matrix for two-dimensional operations.'''
-
     def __init__(self, m=None):
         if isinstance(m, Matrix33):
             m = list(m._m)
@@ -58,7 +55,7 @@ class Matrix33(object):
         ''' Apply self as a transformation matrix to the provided collection
         of Vector2D points '''
         a11, a12, a13, a21, a22, a23, a31, a32, a33 = self._m
-        # apply self matrix as a transformation to each pt's coordinates
+        # apply self matrix as a transformation to each pt's coordinates.
         for pt in points:
             tmp_x = a11*pt.x + a21*pt.y + a31
             tmp_y = a12*pt.x + a22*pt.y + a32
@@ -68,13 +65,14 @@ class Matrix33(object):
     def transform_vector2d(self, pt):
         ''' Apply self as a transformation matrix to a single point '''
         a11, a12, a13, a21, a22, a23, a31, a32, a33 = self._m
-        # apply self matrix as a transformation to pt's coordinates
+        # apply self matrix as a transformation to pt's coordinates.
         tmp_x = a11*pt.x + a21*pt.y + a31
         tmp_y = a12*pt.x + a22*pt.y + a32
         pt.x = tmp_x
         pt.y = tmp_y
 
-    def __mul__(self, rhs):  # the self * rhs operator
+    def __mul__(self, rhs):  
+	# the self * rhs operator.
         ''' 3x3 matrix matrix multiplication. Rarely used however...'''
         a11, a12, a13,  a21, a22, a23,  a31, a32, a33 = self._m
         b11, b12, b13,  b21, b22, b23,  b31, b32, b33 = rhs._m
@@ -95,7 +93,8 @@ class Matrix33(object):
 
         return Matrix33(retm)
 
-    def __imul__(self, rhs):  # the *= operator
+    def __imul__(self, rhs):  
+	# the *= operator.
         ''' 3x3 matrix matrix multiplication result applied to self. '''
         a11, a12, a13,  a21, a22, a23,  a31, a32, a33 = self._m
         b11, b12, b13,  b21, b22, b23,  b31, b32, b33 = rhs._m
@@ -114,12 +113,13 @@ class Matrix33(object):
             a31*b13 + a32*b23 + a33*b33
         ]
 
-    def _fast_imul(self, rhs):  # the *= operator
+    def _fast_imul(self, rhs):  
+	# the *= operator.
         ''' Fast 3x3 matrix multiplication result applied to self.
             Because column 3 is always 0,0,1 for translate, scale and rotate
             we can reduce this operation for these cases.'''
         a11, a12, a13,  a21, a22, a23,  a31, a32, a33 = self._m
-        #         0.0             0.0             1.0
+        #         0.0             0.0             1.0.
         b11, b12, b13,  b21, b22, b23,  b31, b32, b33 = rhs._m
 
         self._m = [

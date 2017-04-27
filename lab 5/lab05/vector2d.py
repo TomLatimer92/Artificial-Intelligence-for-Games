@@ -15,7 +15,7 @@ def is_equal(a, b):
 # Not needed, but fyi ...
 #def PointToVector2D(pt):
 #    return Vector2D(pt.x, pt.y)
-#
+
 #def Vector2DToPoint(v):
 #    return Point2D(v.x, v.y)
 
@@ -87,8 +87,10 @@ class Vector2D(object):
     def truncate(self, maxlength):
         ''' limit the length (scale x and y) to maxlength '''
         if self.length() > maxlength:
-            self.normalise()  # unit vector length = 1.0
-            self *= maxlength  # so length is 1.0 * maxlength
+            self.normalise()  
+			# unit vector length = 1.0.
+            self *= maxlength  
+			# so length is 1.0 * maxlength.
 
     def distance(self, v2):
         ''' the distance between self and v2 vector '''
@@ -104,14 +106,15 @@ class Vector2D(object):
 
     def reflect(self, norm):
         ''' Reflect self around the norm vector provided. '''
-        # eg the path of a ball reflected off a wall
+        # eg the path of a ball reflected off a wall.
         self += 2.0 * self.dot(norm) * norm.get_reverse()
 
     def get_reverse(self):
         ''' return a new vector that is the reverse of self. '''
         return Vector2D(-self.x, -self.y)
 
-    def __neg__(self):  #
+    def __neg__(self):  
+	# -.
         ''' get_reverse(), but using - operator based instead. '''
         return Vector2D(-self.x, -self.y)
 
@@ -119,46 +122,58 @@ class Vector2D(object):
         ''' Simple copy Vector2D with self values '''
         return Vector2D(self.x, self.y)
 
-    def __iadd__(self, rhs):  # +=
+    def __iadd__(self, rhs):  
+	# +=.
         self.x += rhs.x
         self.y += rhs.y
         return self
 
-    def __isub__(self, rhs):  # -=
+    def __isub__(self, rhs):  
+	# -=.
         self.x -= rhs.x
         self.y -= rhs.y
         return self
 
-    def __imul__(self, rhs):  # *=
+    def __imul__(self, rhs):  
+	# *=.
         self.x *= rhs
         self.y *= rhs
         return self
 
-    def __idiv__(self, rhs):  # /=
+    def __idiv__(self, rhs):  
+	# /=.
         self.x /= rhs
         self.y /= rhs
         return self
 
-    def __eq__(self, rhs):  # ==
+    def __eq__(self, rhs):  
+	# ==.
         return is_equal(self.x, rhs.x) and is_equal(self.y, rhs.y)
 
-    def __ne__(self, rhs):  # !=
+    def __ne__(self, rhs):  
+	# !=.
         return (self.x != rhs.x) or (self.y != rhs.y)
 
-    def __add__(self, rhs):  # self + rhs
+    def __add__(self, rhs):  
+	# self + rhs.
         return Vector2D(self.x+rhs.x, self.y+rhs.y)
 
-    def __sub__(self, rhs):  # self - rhs
+    def __sub__(self, rhs):  
+	# self - rhs.
         return Vector2D(self.x-rhs.x, self.y-rhs.y)
 
-    def __mul__(self, rhs):  # self * rhs (scalar)
+    def __mul__(self, rhs):  
+	# self * rhs (scalar).
         return Vector2D(self.x*rhs, self.y*rhs)
-    def __rmul__(self, lhs):  # lhs * self
+    def __rmul__(self, lhs):  
+	# lhs * self.
         return Vector2D(self.x*lhs, self.y*lhs)
 
-    def __div__(self, rhs):  # self / rhs (scalar)
+    def __div__(self, rhs):  
+	# self / rhs (scalar).
         return Vector2D(self.x/rhs, self.y/rhs)
-    def __rdiv__(self, lhs):  # lhs (scalar) / self
+    def __rdiv__(self, lhs):  
+	# lhs (scalar) / self.
         return Vector2D(lhs/self.x, lhs/self.y)
 
     def __str__(self):

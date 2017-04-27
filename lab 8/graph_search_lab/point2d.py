@@ -1,9 +1,7 @@
 ''' 2D Point
-
 Created for COS3002 AI for Games by Clinton Woodward cwoodward@swin.edu.au
 Please don't share without permission.
 '''
-
 class Point2D(object):
 
     __slots__ = ('x','y')
@@ -17,3 +15,4 @@ class Point2D(object):
 
     def __str__(self):
         return '(%5.2f,%5.2f)' % (self.x, self.y)
+		

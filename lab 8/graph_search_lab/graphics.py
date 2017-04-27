@@ -15,8 +15,8 @@ from pyglet.gl import *
 from pyglet import font, media, window, clock
 from math import cos, sin, pi
 
-KEY = window.key # the key codes
-
+KEY = window.key 
+# the key codes.
 COLOR_NAMES = {
     'BLACK':  (0.0, 0.0, 0.0, 1),
     'WHITE':  (1.0, 1.0, 1.0, 1),
@@ -40,20 +40,20 @@ COLOR_NAMES = {
 class EasyGraphics(object):
 
     def __init__(self):
-        # current "pen" colour of lines
+        # current "pen" colour of lines.
         self.pen_color = (1.0, 0.0, 0.0, 1.0)
-        self.stroke = 1.0 # - thickness the default
-
+        self.stroke = 1.0 
+		# - thickness the default.
     def InitWithPyglet(self, window):
-        # stuff that needs to be done *after* the pyglet window is created
+        # stuff that needs to be done *after* the pyglet window is created.
         self.set_pen_color(self.pen_color)
         self.set_stroke(self.stroke)
         self.window = window
-        # prep the text object
+        # prep the text object.
         self.text = font.Text(font.load('',10), '', color=(1,1,1,1),
                               valign='bottom', halign='left')
-        # prep the quadric object used by glu* functions (circle)
-        # styles GLU_LINE, GLU_FILL, GLU_SILHOUETTE, GLU_POINT
+        # prep the quadric object used by glu* functions (circle).
+        # styles GLU_LINE, GLU_FILL, GLU_SILHOUETTE, GLU_POINT.
         self.qobj = gluNewQuadric()
         gluQuadricDrawStyle(self.qobj, GLU_SILHOUETTE)
 
@@ -64,7 +64,8 @@ class EasyGraphics(object):
             x, y = pos.x, pos.y
         if color is not None:
             glColor4f(*color)
-        glBegin(GL_POINTS) # draw points (only one!)
+        glBegin(GL_POINTS) 
+		# draw points (only one!).
         glVertex3f(x, y, 0.0)
         glEnd()
 
@@ -89,8 +90,10 @@ class EasyGraphics(object):
 
     def polyline(self, points):
         if len(points) < 2: return
-        pts = [(p.x, p.y) for p in points] # convert to list of tuples
-        pts = ((GLfloat * 2)*len(pts))(*pts) # convert to GLfloat list
+        pts = [(p.x, p.y) for p in points] 
+		# convert to list of tuples.
+        pts = ((GLfloat * 2)*len(pts))(*pts) 
+		# convert to GLfloat list.
         glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT)
         glEnableClientState(GL_VERTEX_ARRAY)
         glVertexPointer(2,GL_FLOAT, 0, pts)
@@ -100,27 +103,27 @@ class EasyGraphics(object):
     def line_with_arrow(self,v1,v2,size):
         norm = v2-v1
         norm.normalise()
-        # calculate where arrow is attached
+        # calculate where arrow is attached.
         xpoint = v2 - (norm * size)
-        # calculate the two extra points required to make the arrowhead
+        # calculate the two extra points required to make the arrowhead.
         ap1 = xpoint + (norm.perp() * 0.4 * size)
         ap2 = xpoint - (norm.perp() * 0.4 * size)
-        # draw line from start to head crossing point
+        # draw line from start to head crossing point.
         glBegin(GL_LINES)
         glVertex2f(v1.x, v1.y)
         glVertex2f(xpoint.x, xpoint.y)
         glEnd()
-        # draw triangle for head
+        # draw triangle for head.
         self.closed_shape((v2, ap1, ap2), filled=False)
 
     def cross(self, pos, diameter):
         d = diameter
         x, y = pos.x, pos.y
         glBegin(GL_LINES)
-        # TL to BR
+        # TL to BR.
         glVertex2f(x-d, y-d)
         glVertex2f(x+d, y+d)
-        # TR to BL
+        # TR to BL.
         glVertex2f(x+d, y-d)
         glVertex2f(x-d, y+d)
         glEnd()
@@ -130,7 +133,7 @@ class EasyGraphics(object):
             glBegin(GL_QUADS)
         else:
             glBegin(GL_LINE_LOOP)
-        # A single quad - TL to TR to BR to BL (to TL...)
+        # A single quad - TL to TR to BR to BL (to TL...).
         glVertex2f(left,top)
         glVertex2f(right,top)
         glVertex2f(right,bottom)
@@ -140,24 +143,24 @@ class EasyGraphics(object):
     def closed_shape(self, points, filled=False):
         if len(points) < 2: return
         gl_array_type = GL_POLYGON if filled else GL_LINE_LOOP
-        # convert points to a list of types, then GLfloat list
+        # convert points to a list of types, then GLfloat list.
         pts = [(p.x, p.y) for p in points]
         pts = ((GLfloat * 2)*len(pts))(*pts)
-        # tell GL system about the array of points
+        # tell GL system about the array of points.
         glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT)
         glEnableClientState(GL_VERTEX_ARRAY)
         glVertexPointer(2,GL_FLOAT, 0, pts)
-        # draw array of points, and clean up
+        # draw array of points, and clean up.
         glDrawArrays(gl_array_type, 0, len(pts))
         glPopClientAttrib()
 
     def circle(self, pos, radius, filled=False, slices=0):
         glPushMatrix()
         glTranslatef(pos.x, pos.y, 0.0)
-        gluDisk(self.qobj, 0, radius, 32, 1) # default style (filled? line?)
+        gluDisk(self.qobj, 0, radius, 32, 1) 
+		# default style (filled? line?).
         glPopMatrix()
-
-    # ----- COLOUR/STROKE STUFF -----
+    # ----- COLOUR/STROKE STUFF -----.
     def set_pen_color(self, color=None, name=None):
         if name is not None:
             color = COLOR_NAMES[name]
@@ -176,8 +179,7 @@ class EasyGraphics(object):
     def set_stroke(self, stroke):
         self.stroke = stroke
         glLineWidth(self.stroke)
-
-    # ----- TEXT METHODS -----
+    # ----- TEXT METHODS -----.
     def text_color(self,color=None,name=None):
         ''' Colour is a tuple (R,G,B,A) with values from 0.0 to 1.0 '''
         if name is not None:
@@ -189,13 +191,11 @@ class EasyGraphics(object):
         self.text.x = x
         self.text.y = self.window.height + y if y < 0 else y
         self.text.draw()
-
-    # ----- simple wrappers to gl push / pop matrix -----
+    # ----- simple wrappers to gl push / pop matrix -----.
     def push(self, x, y):
         glPushMatrix()
         glTranslatef(x,y,0.0)
     def pop(self):
         glPopMatrix()
-
-# create an instance for anyone to use
+# create an instance for anyone to use.
 egi = EasyGraphics()

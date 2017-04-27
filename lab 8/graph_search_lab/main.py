@@ -1,8 +1,6 @@
 '''  BoxWorldWindow to test/demo graph (path) search.
-
 Created for COS30002 AI for Games by Clinton Woodward cwoodward@swin.edu.au
 Please don't share without permission.
-
 See readme.txt for details.
 '''
 
@@ -16,7 +14,6 @@ from pyglet.text import Label
 from box_world import BoxWorld, search_modes, cfg
 
 class BoxWorldWindow(pyglet.window.Window):
-
     # Mouse mode indicates what the mouse "click" should do...
     mouse_modes = {
         key._1: 'clear',
@@ -27,8 +24,7 @@ class BoxWorldWindow(pyglet.window.Window):
         key._6: 'target',
     }
     mouse_mode = 'wall'
-
-    # search mode cycles through the search algorithm used by box_world
+    # search mode cycles through the search algorithm used by box_world.
     search_mode = 0
 
     def __init__(self, filename, **kwargs):
@@ -39,24 +35,23 @@ class BoxWorldWindow(pyglet.window.Window):
             'resizable':True,
         })
         super(BoxWorldWindow, self).__init__(**kwargs)
-
-        # create a pyglet window and set glOptions
+        # create a pyglet window and set glOptions.
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-        # needed so that graphs.egi knows where to draw
+        # needed so that graphs.egi knows where to draw.
         egi.InitWithPyglet(self)
         egi.text_color(name='BLACK')
 
-        glClearColor(0.9, 0.9, 0.9, 1.0) # Grey
-
-        #create a world for graph searching
-        #filename = kwargs['filename'] #"boxworld2.txt"
-        #filename = 'map2.txt'
+        glClearColor(0.9, 0.9, 0.9, 1.0) 
+		# Grey.
+        #create a world for graph searching.
+        #filename = kwargs['filename'] #"boxworld2.txt.
+        #filename = 'map2.txt'.
         self.world = BoxWorld.FromFile(filename, self.get_size())
         self.world.reset_navgraph()
-
-        # prep the fps display and some labels
-        self.fps_display = None # clock.ClockDisplay()
+        # prep the fps display and some labels.
+        self.fps_display = None 
+		# clock.ClockDisplay().
         clBlack = (0,0,0, 255)
         self.labels = {
             'mouse':  Label('', x=5, y=self.height-20, color=clBlack),
@@ -64,13 +59,11 @@ class BoxWorldWindow(pyglet.window.Window):
             'status': Label('', x=300, y=self.height-20, color=clBlack),
         }
         self._update_label()
-
-        # add the extra event handlers we need
+        # add the extra event handlers we need.
         self.add_handers()
-
-        # search limit
-        self.limit = 0 # unlimited.
-
+        # search limit.
+        self.limit = 0 
+		# unlimited.
     def _update_label(self, key=None, text='---'):
         if key == 'mouse' or key is None:
             self.labels['mouse'].text = 'Kind: '+self.mouse_mode
@@ -90,7 +83,8 @@ class BoxWorldWindow(pyglet.window.Window):
 
         @self.event
         def on_mouse_press(x, y, button, modifiers):
-            if button == 1: # left
+            if button == 1: 
+			# left.
                 box = self.world.get_box_by_pos(x,y)
                 if box:
                     if self.mouse_mode == 'start':
@@ -109,9 +103,8 @@ class BoxWorldWindow(pyglet.window.Window):
             if symbol in self.mouse_modes:
                 self.mouse_mode = self.mouse_modes[symbol]
                 self._update_label('mouse')
-
-                #print 'mouse mode ', self.mouse_mode
-            # Change search mode? (Algorithm)
+                #print 'mouse mode ', self.mouse_mode.
+            # Change search mode? (Algorithm).
             elif symbol == key.M:
                 self.search_mode += 1
                 if self.search_mode >= len(search_modes):
@@ -168,9 +161,7 @@ class BoxWorldWindow(pyglet.window.Window):
             self.fps_display.draw()
         for key, label in list(self.labels.items()):
             label.draw()
-
 #==============================================================================
-
 if __name__ == '__main__':
     import sys
     if len(sys.argv) > 1:
@@ -179,4 +170,3 @@ if __name__ == '__main__':
         filename = "map1.txt"
     window = BoxWorldWindow(filename)
     pyglet.app.run()
-

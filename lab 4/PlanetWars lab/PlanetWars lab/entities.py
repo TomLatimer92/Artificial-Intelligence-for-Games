@@ -15,15 +15,14 @@ from math import sqrt
 NEUTRAL_ID = 0
 
 class Entity(object):
-
     '''Abstract class representing entities in the 2d game world.
         See Fleet and Planet classes.'''
-
     def __init__(self, x, y, id, owner_id, num_ships):
         self.x = x
         self.y = y
         self.num_ships = num_ships
-        self.id = id  # type int or uuid
+        self.id = id  
+		# type int or uuid.
         self.owner_id = owner_id
         self.vision_age = 0
         self.was_battle = False
@@ -43,7 +42,7 @@ class Entity(object):
         if self.num_ships < num_ships:
             raise ValueError("Eh! %s (owner %s) can't remove more ships (%d) then it has (%d)!" %
                              (self._name, self.owner_id, num_ships, self.num_ships))
-            # num_ships = self.num_ships
+            # num_ships = self.num_ships.
         self.num_ships -= num_ships
 
     def add_ships(self, num_ships):
@@ -102,8 +101,8 @@ class Fleet(Entity):
         Fleet id values are deliberately obscure (using UUID) to remove any
         possible value an enemy players might gather from it.'''
     FLEET_RANGE = 2
-    # the size of the fleet will add some vision range
-    # with the formula: totalrange = FLEET_RANGE + (fleet.num_ships * FLEET_FACTOR)
+    # the size of the fleet will add some vision range.
+    # with the formula: totalrange = FLEET_RANGE + (fleet.num_ships * FLEET_FACTOR).
     # todo remove FLEET_FACTOR?
     FLEET_FACTOR = 0
 
@@ -129,7 +128,7 @@ class Fleet(Entity):
     def update(self):
         '''Move the fleet (progress) by one game time step.'''
         self.turns_remaining -= 1
-        # update position and progress
+        # update position and progress.
         src = self.src
         dest = self.dest
         scale = 1 - (float(self.turns_remaining) / float(self.total_trip_length))

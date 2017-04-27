@@ -1,8 +1,6 @@
 '''Path container to support easy path following by Agents
-
 Created for COS30002 AI for Games by Clinton Woodward cwoodward@swin.edu.au
 '''
-
 from random import random, uniform
 from matrix33 import Matrix33
 from vector2d import Vector2D
@@ -23,7 +21,6 @@ class Path(object):
     ''' Container to hold a number of way points and a cursor to the
         current way point. The cursor can be moved to the next way point by
         calling set_next_way_pt(). Paths can be open or looped. '''
-
     def __init__(self, num_pts=0, minx=0, miny=0, maxx=0, maxy=0, looped=False):
         ''' If number of points (num_pts) is provided, a path of random
             non-overlapping waypoints will be created in the region specified
@@ -71,7 +68,8 @@ class Path(object):
            temp.y += midY
            self._pts.append(temp)
 
-        self._reset()  # reset num_pts and cur_pt_idx
+        self._reset() 
+		# reset num_pts and cur_pt_idx.
         return self._pts
 
     def add_way_pt(self, new_pt):
@@ -103,14 +101,13 @@ class Path(object):
 
     def render(self):
         ''' Draw the path, open or closed, using the current pen colour. '''
-        # draw base line
+        # draw base line.
         egi.blue_pen()
         if self.looped:
             egi.closed_shape(self._pts)
         else:
             egi.polyline(self._pts)
-        # draw current waypoint
+        # draw current waypoint.
         egi.orange_pen()
         wp = self.current_pt()
         egi.circle(pos=wp, radius=5, slices=32)
-

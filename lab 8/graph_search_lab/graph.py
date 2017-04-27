@@ -1,9 +1,7 @@
 ''' Edge, Node and SparseGraph classes to support navigation graphs and cost
 based searches for path between points.
-
 Created for COS30002 AI for Games by Clinton Woodward cwoodward@swin.edu.au
 '''
-
 class Edge(object):
     '''A single weighted (has a cost) and directed (has direction) edge. '''
     def __init__(self, from_idx=-1, to_idx=-1, cost=0.0):
@@ -25,12 +23,14 @@ class SparseGraph(object):
     '''
 
     def __init__(self, digraph=True):
-        self.nodes = {} # dictionary
-        self.edgelist = {} # dictionary of dictionaries
+        self.nodes = {} 
+		# dictionary.
+        self.edgelist = {} 
+		# dictionary of dictionaries.
         self.digraph = digraph
         self.next_node_idx = 0
-        self.cost_h = None # heuristic cost function reference
-
+        self.cost_h = None 
+		# heuristic cost function reference.
     def is_empty(self):
         ''' Return True if graph contains no nodes '''
         return len(self.nodes) == 0
@@ -60,7 +60,8 @@ class SparseGraph(object):
     def get_neighbours(self, node_idx):
         ''' Return a list of the linked nodes as idx (index) values. '''
         keys = list(self.edgelist[node_idx].keys())
-        keys.sort() # in-place
+        keys.sort() 
+		# in-place.
         return keys
 
     def add_node(self, node):
@@ -69,7 +70,7 @@ class SparseGraph(object):
         if node.idx < 0:
             node.idx = self.next_node_idx
         self.next_node_idx = node.idx + 1
-        # Keep the node, prepare the edgelist for edges
+        # Keep the node, prepare the edgelist for edges.
         self.nodes[node.idx] = node
         self.edgelist[node.idx] = {}
         # It can be useful to return the node just added...
@@ -146,23 +147,22 @@ class SparseGraph(object):
             Note: default zero indexed,
             Format: each tuple set of (from, to1, to2, to3...)'''
         g = SparseGraph(digraph)
-        # must add all nodes before the edges
+        # must add all nodes before the edges.
         for list in adjlist:
             g.add_node(nodecls(idx=list[0]))
-        # add the edges now
+        # add the edges now.
         for list in adjlist:
             from_idx = list[0]
-            for to_idx in list[1:]: #skip from index
+            for to_idx in list[1:]: 
+			#skip from index.
                 g.add_edge(Edge(from_idx, to_idx))
         return g
-
 #==============================================================================
 # If this file is run directly, it will test the basic Node, Edge and
 # SparseGraph functionality, and print some results to screen. A nice and
 # simple test process.
-
 if __name__ == '__main__':
-    # try a directed graph (with directed edges)
+    # try a directed graph (with directed edges).
     g = SparseGraph(digraph=True)
     n1 = g.add_node(Node(idx=1))
     n2 = g.add_node(Node(idx=2))
@@ -182,7 +182,7 @@ if __name__ == '__main__':
     print(g.summary(), g.is_edge(1,2), g.is_node(0), g.is_node(1))
     g.remove_edge(1, 2)
     print(g.summary(), g.is_edge(1,2))
-    # sample graph from book
+    # sample graph from book.
     adj_list = ((0,3,5),
                 (1,3,4),
                 (2,3),

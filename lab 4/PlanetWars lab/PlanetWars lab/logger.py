@@ -10,7 +10,6 @@ class Logger(object):
          - errors # contains any errors logged during the match
          - player_id # player log details, one file for each player.
         If messages have not been logged the corresponding file is not created.'''
-
     def __init__(self, filename_pattern):
         '''Creates a log file at this file location.
             The pattern must contain one '%s' which will be replaced with the

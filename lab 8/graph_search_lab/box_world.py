@@ -41,7 +41,6 @@ Example BoxWorld map file.
 . m m m . .
 # Note the number of rows and column values match
 '''
-
 from graphics import egi
 import pyglet
 from pyglet.gl import *
@@ -59,18 +58,18 @@ box_kind_map = {
     'wall':  'X',
 }
 
-no_edge = ['X'] # box kinds that don't have edges.
-
+no_edge = ['X'] 
+# box kinds that don't have edges.
 edge_cost_matrix = [
-    # '.'   'm'   '~'   'X'
+    # '.'   'm'   '~'   'X'.
     [ 1.0,  2.0,  5.0, None], # '.'
     [ 2.0,  4.0,  9.0, None], # 'm'
     [ 5.0,  9.0, 10.0, None], # '~'
     [None, None, None, None], # 'X <- NO edges to walls.
 ]
 
-min_edge_cost = 10.0 # must be min value for heuristic cost to work
-
+min_edge_cost = 10.0 
+# must be min value for heuristic cost to work.
 def edge_cost(k1, k2):
     k1 = box_kind.index(k1)
     k2 = box_kind.index(k2)
@@ -97,39 +96,38 @@ search_modes = list(SEARCHES.keys())
 
 class Box(object):
     '''A single box for boxworld. '''
-
     def __init__(self, coords=(0,0,0,0), kind='.'):
-        # keep status
+        # keep status.
         self.kind = kind
         self.color = box_kind_color[kind]
         self.marker = None
-        # nav graph node
+        # nav graph node.
         self.node = None
         self.idx = -1
         # pretty labels...
         self.idx_label = None
         self.pos_label = None
         self.marker_label = None
-        # position using coordinates
+        # position using coordinates.
         self.reposition(coords)
 
     def reposition(self, coords):
-        # top, right, bottom, left
+        # top, right, bottom, left.
         pts = self.coords = coords
-        # points for drawing
+        # points for drawing.
         self._pts = (
             Point2D(pts[3], pts[0]), # top left
             Point2D(pts[1], pts[0]), # top right
             Point2D(pts[1], pts[2]), # bottom right
             Point2D(pts[3], pts[2])  # bottom left
         )
-        # vector-centre point
+        # vector-centre point.
         self._vc = Point2D((pts[1]+pts[3])/2.0, (pts[0]+pts[2])/2.0)
-        # labels may need to be updated
+        # labels may need to be updated.
         self._reposition_labels()
 
     def _reposition_labels(self):
-        # reposition labels if we have any
+        # reposition labels if we have any.
         if self.idx_label:
             self.idx_label.x = self._vc.x
             self.idx_label.y = self._vc.y
@@ -139,8 +137,7 @@ class Box(object):
         if self.marker_label:
             self.marker_label.x = self._vc.x
             self.marker_label.y = self._vc.y
-            #self._vc.y - (self.marker_label.content_height // 2)
-
+            #self._vc.y - (self.marker_label.content_height // 2).
     def set_kind(self, kind):
         'Set the box kind (type) using string a value ("water","mud" etc)'
         kind = box_kind_map.get(kind, kind)
@@ -151,19 +148,18 @@ class Box(object):
             print('not a known tile kind "%s"' % kind)
 
     def draw(self):
-        # draw filled box
+        # draw filled box.
         egi.set_pen_color(self.color)
         egi.closed_shape(self._pts, filled=True)
-
-        # draw box border
+        # draw box border.
         if cfg['BOXLINES_ON']:
             egi.set_pen_color((.7,.7,.7,1))
             egi.closed_shape(self._pts, filled=False)
-        # centre circle
+        # centre circle.
         if cfg['CENTER_ON']:
             egi.set_pen_color((.3,.3,1,1))
             egi.circle(self._vc, 5)
-        # box position (simple column,row) (or x,y actually)
+        # box position (simple column,row) (or x,y actually).
         if self.node:
             if cfg['LABELS_ON']:
                 if not self.idx_label:
@@ -193,14 +189,15 @@ class BoxWorld(object):
 
     def __init__(self, nx, ny, cx, cy):
         self.boxes = [None]*nx*ny
-        self.nx, self.ny = nx, ny # number of box (squares)
+        self.nx, self.ny = nx, ny 
+		# number of box (squares).
         for i in range(len(self.boxes)):
             self.boxes[i] = Box()
             self.boxes[i].idx = i
-        # use resize to set all the positions correctly
+        # use resize to set all the positions correctly.
         self.cx = self.cy = self.wx = self.wy = None
         self.resize(cx, cy)
-        # create nav_graph
+        # create nav_graph.
         self.path = None
         self.graph = None
         self.reset_navgraph()
@@ -225,7 +222,7 @@ class BoxWorld(object):
         if cfg['EDGES_ON']:
             egi.set_pen_color(name='LIGHT_BLUE')
             for node, edges in self.graph.edgelist.items():
-                # print node, edges
+                # print node, edges.
                 for dest in edges:
                     egi.line_by_pos(self.boxes[node]._vc, self.boxes[dest]._vc)
 
@@ -238,12 +235,12 @@ class BoxWorld(object):
 
             if cfg['TREE_ON']:
                 egi.set_stroke(3)
-                # Show open edges
+                # Show open edges.
                 route = self.path.route
                 egi.set_pen_color(name='GREEN')
                 for i in self.path.open:
                     egi.circle(self.boxes[i]._vc, 10)
-                # show the partial paths considered
+                # show the partial paths considered.
                 egi.set_pen_color(name='ORANGE')
                 for i,j in route.items():
                     egi.line_by_pos(self.boxes[i]._vc, self.boxes[j]._vc)
@@ -259,20 +256,23 @@ class BoxWorld(object):
                 egi.set_stroke(1)
 
     def resize(self, cx, cy):
-        self.cx, self.cy = cx, cy # world size
+        self.cx, self.cy = cx, cy 
+		# world size.
         self.wx = (cx-1) // self.nx
-        self.wy = (cy-1) // self.ny # int div - box width/height
+        self.wy = (cy-1) // self.ny 
+		# int div - box width/height.
         for i in range(len(self.boxes)):
-            # basic positions (bottom left to top right)
+            # basic positions (bottom left to top right).
             x = (i % self.nx) * self.wx
             y = (i // self.nx) * self.wy
-            # top, right, bottom, left
+            # top, right, bottom, left.
             coords = (y + self.wy -1, x + self.wx -1, y, x)
             self.boxes[i].reposition(coords)
 
     def _add_edge(self, from_idx, to_idx, distance=1.0):
         b = self.boxes
-        if b[to_idx].kind not in no_edge: # stone wall
+        if b[to_idx].kind not in no_edge: 
+		# stone wall.
             cost = edge_cost(b[from_idx].kind, b[to_idx].kind)
             self.graph.add_edge(Edge(from_idx, to_idx, cost*distance))
 
@@ -302,36 +302,37 @@ class BoxWorld(object):
         The graph is build by adding NavNode to the graph for each of the
         boxes in box world. Then edges are created (4-sided).
         '''
-        self.path = None # invalid so remove if present
+        self.path = None 
+		# invalid so remove if present.
         self.graph = SparseGraph()
-        # Set a heuristic cost function for the search to use
+        # Set a heuristic cost function for the search to use.
         self.graph.cost_h = self._manhattan
-        #self.graph.cost_h = self._hypot
-        #self.graph.cost_h = self._max
-
+        #self.graph.cost_h = self._hypot.
+        #self.graph.cost_h = self._max.
         nx, ny = self.nx, self.ny
-        # add all the nodes required
+        # add all the nodes required.
         for i, box in enumerate(self.boxes):
-            box.pos = (i % nx, i // nx) #tuple position
+            box.pos = (i % nx, i // nx) 
+			#tuple position.
             box.node = self.graph.add_node(Node(idx=i))
-        # build all the edges required for this world
+        # build all the edges required for this world.
         for i, box in enumerate(self.boxes):
-            # four sided N-S-E-W connections
+            # four sided N-S-E-W connections.
             if box.kind in no_edge:
                 continue
-            # UP (i + nx)
+            # UP (i + nx).
             if (i+nx) < len(self.boxes):
                 self._add_edge(i, i+nx)
-            # DOWN (i - nx)
+            # DOWN (i - nx).
             if (i-nx) >= 0:
                 self._add_edge(i, i-nx)
-            # RIGHT (i + 1)
+            # RIGHT (i + 1).
             if (i%nx + 1) < nx:
                 self._add_edge(i, i+1)
-            # LEFT (i - 1)
+            # LEFT (i - 1).
             if (i%nx - 1) >= 0:
                 self._add_edge(i, i-1)
-#            # Diagonal connections
+#            # Diagonal connections.
 #            # UP LEFT(i + nx - 1)
 #            j = i + nx
 #            if (j-1) < len(self.boxes) and (j%nx - 1) >= 0:
@@ -349,10 +350,9 @@ class BoxWorld(object):
 #            j = i - nx
 #            if (j+1) >= 0 and (j%nx +1) < nx:
 #                 self._add_edge(i, j+1, 1.4142)
-
     def set_start(self, idx):
         '''Set the start box based on its index idx value. '''
-        # remove any existing start node, set new start node
+        # remove any existing start node, set new start node.
         if self.target == self.boxes[idx]:
             print("Can't have the same start and end boxes!")
             return
@@ -363,7 +363,7 @@ class BoxWorld(object):
 
     def set_target(self, idx):
         '''Set the target box based on its index idx value. '''
-        # remove any existing target node, set new target node
+        # remove any existing target node, set new target node.
         if self.start == self.boxes[idx]:
             print("Can't have the same start and end boxes!")
             return
@@ -385,7 +385,7 @@ class BoxWorld(object):
         '''Support a the construction of a BoxWorld map from a simple text file.
         See the module doc details at the top of this file for format details.
         '''
-        # open and read the file
+        # open and read the file.
         f = file(filename)
         lines = []
         for line in f.readlines():
@@ -393,20 +393,21 @@ class BoxWorld(object):
             if line and not line.startswith('#'):
                 lines.append(line)
         f.close()
-        # first line is the number of boxes width, height
+        # first line is the number of boxes width, height.
         nx, ny = [int(bit) for bit in lines.pop(0).split()]
         # Create a new BoxWorld to store all the new boxes in...
         cx, cy = pixels
         world = BoxWorld(nx, ny, cx, cy)
-        # Get and set the Start and Target tiles
+        # Get and set the Start and Target tiles.
         s_idx, t_idx = [int(bit) for bit in lines.pop(0).split()]
         world.set_start(s_idx)
         world.set_target(t_idx)
-        # Ready to process each line
+        # Ready to process each line.
         assert len(lines) == ny, "Number of rows doesn't match data."
-        # read each line
+        # read each line.
         idx = 0
-        for line in reversed(lines): # in reverse order
+        for line in reversed(lines): 
+		# in reverse order.
             bits = line.split()
             assert len(bits) == nx, "Number of columns doesn't match data."
             for bit in bits:
