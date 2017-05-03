@@ -22,6 +22,10 @@ def on_key_press(symbol, modifiers):
         for agent in world.agents:
             agent.mode = AGENT_MODES[symbol]
 
+    # Add agent here. (duplicate)
+    if symbol == KEY.C:
+        world.agents.append(Agent(world))
+
 def on_resize(cx, cy):
     world.cx = cx
     world.cy = cy

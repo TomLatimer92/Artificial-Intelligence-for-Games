@@ -35,9 +35,9 @@ class Agent(object):
         self.heading = Vector2D(sin(dir), cos(dir))
         self.side = self.heading.perp()
         self.scale = Vector2D(scale, scale)  
-		# easy scaling of agent size.
+	# easy scaling of agent size.
         self.acceleration = Vector2D()  
-		# current steering force.
+	# current steering force.
         self.mass = mass
         # limits?
         self.max_speed = 5000.0
@@ -48,6 +48,8 @@ class Agent(object):
             Point2D( 1.0,  0.0),
             Point2D(-1.0, -0.6)
         ]
+
+    # if symbol.KEY.S:    
 
     def calculate(self):
         # reset the steering force.
@@ -70,7 +72,7 @@ class Agent(object):
         return accel
 
     def update(self, delta):
-        ''' update vehicle position and orientation '''
+        '''update vehicle position and orientation.'''
         acceleration = self.calculate()
         # new velocity.
         self.vel += acceleration * delta
@@ -78,7 +80,7 @@ class Agent(object):
         self.vel.truncate(self.max_speed)
         # update position.
         self.pos += self.vel * delta
-		self.accel = force / self.mass  
+	# self.accel = force / self.mass  
         # update heading is non-zero velocity (moving).
         if self.vel.lengthSq() > 0.00000001:
             self.heading = self.vel.get_normalised()
@@ -87,9 +89,9 @@ class Agent(object):
         self.world.wrap_around(self.pos)
 
     def render(self, color=None):
-        ''' Draw the triangle agent with color'''
-		# draw the path if it exists and the mode is follow.
-		if self.mode == 'follow_path':
+        ''' Draw the triangle agent with color '''
+        # draw the path if it exists and the mode is follow.
+        if self.mode == 'follow_path':
             ## ...
             pass
         egi.set_pen_color(name=self.color)
@@ -108,11 +110,10 @@ class Agent(object):
 
     def flee(self, hunter_pos):
         ''' move away from hunter position '''
-## add panic distance (second).
-        desired_vel = (hunter_pos - self.pos).normalise()
-## add flee calculations (first).
-# ...
-        return Vector2D()
+        ## add panic distance (second).
+        desired_vel = (self.pos - hunter_pos).normalise() * self.max_speed
+        ## add flee calculations (first).
+        return (desired_vel - self.vel)
 
     def arrive(self, target_pos, speed):
         ''' this behaviour is similar to seek() but it attempts to arrive at
@@ -136,5 +137,5 @@ class Agent(object):
     def pursuit(self, evader):
         ''' this behaviour predicts where an agent will be in time T and seeks
             towards that point to intercept it. '''
-## OPTIONAL EXTRA... pursuit (you'll need something to pursue!).
+        ## OPTIONAL EXTRA... pursuit (you'll need something to pursue!).
         return Vector2D()
