@@ -16,16 +16,22 @@ AGENT_MODES = {
     KEY._5: 'flee',
     KEY._6: 'pursuit',
     
-    ### new Keys ###
+    ### New Keys ###
     KEY._7: 'follow_path',
-    KEY._8: 'wander'
-    ### new keys end ###
+    KEY._8: 'wander',
+    ### End New Keys ###
+
+    ### lab 7 new keys ###
+    Key._9: 'cohesion',
+    Key._0: 'seperation',
+    Key._q: 'alignment'
+    ### lab 7 new keys end ###
 }
 
 class Agent(object):
     # NOTE: Class Object (not *instance*) variables!
     DECELERATION_SPEEDS = {
-        'slow': 0.9, 'normal': 0.4, 'fast': 0.1
+        'slow': 0.9, 'normal': 0.4, 'fast': 0.01
         ### ADD 'normal' and 'fast' speeds here:
     }
     # mass is here.
@@ -64,14 +70,14 @@ class Agent(object):
 
         ### added wonder info part 2 ###
 	# NEW WANDER INFO
-	### wander details.
+	### wander details
         self.wander_target = Vector2D(1, 0)
         self.wander_dist = 1.0 * scale
         self.wander_radius = 1.0 * scale
         self.wander_jitter = 10.0 * scale
         self.bRadius = scale
         # Force and speed limiting code
-        # max speed is here.
+        # max speed is here
         # limits?
         self.max_speed = 20.0 * scale
         self.max_force = 500.0
@@ -123,30 +129,30 @@ class Agent(object):
         self.force = force
         return force
 
-    # This is most likely wrong.
+ # This is most likely wrong.
     def follow_path(self, path):
         self.path = Path()
         
         # If heading to final point (is_finished?)
         if Path.is_finished: 
         # Return a slow down force vector (Arrive)
-            return self.arrive(self.world.target, 'slow')
+            return force == self.arrive(self.world.target, 'slow')
+            return Vector2D
         # Else
         # If within threshold distance of current way point, inc to next in path
-        if self.waypoint_threshold == path.current_pt:
-            # current_pt == is_not_finsihed and 
+        if current_pt == is_not_finsihed and self.waypoint_threshold == current_pt:
         # Return a force vector to head to current point at full speed (Seek)
-            return self.seek(path.current_pt(self))
-            
-
+            return force == self.seek(self.world.target, 'seek')
+            return Vector2D
+        
     def update(self, delta):
         ''' update vehicle position and orientation '''
         # calculate and set self.force to be applied
-        ## force = self.calculate(delta)
+        ## force = self.calculate()
         force = self.calculate()
         # <-- delta needed for wander (delta)
         ## limit force? <-- for wander
-        
+        #...
         # determine the new accelteration
         self.accel = force / self.mass  # not needed if mass = 1.0
         # new velocity
@@ -179,18 +185,11 @@ class Agent(object):
             pass
         ### end wander addtion part 1 ###
 
-    def render(self, color= 'Red'):
-        # graphics,
-        ''' Draw the triangle agent with color'''
-        # self.graphics = Graphics() 
+    def render(self, color=None):
+        ''' Draw the triangle agent with color'''		
         # draw the path if it exists and the mode is follow.
         if self.mode == 'follow_path':
-        # not sure what to insert here.
-            s = 5.0
-            # draw base line.
-            egi.red_pen()
-            egi.line_with_arrow(self.pos, self.pos + self.force * s, 5)
-        pass
+            pass
         # draw the ship.
         egi.set_pen_color(name=self.color)
         pts = self.world.transform_points(self.vehicle_shape, self.pos,

@@ -5,7 +5,7 @@ By Clinton Woodward cwoodward@swin.edu.au
 from graphics import egi, KEY
 from pyglet import window, clock
 from pyglet.gl import *
-from path import Path
+
 from vector2d import Vector2D
 from world import World
 from agent import Agent, AGENT_MODES  
@@ -29,7 +29,7 @@ def on_key_press(symbol, modifiers):
         world.agents.append(Agent(world))
     ## lab 5 task 2 end ##
         
-    ## LAB 06 TASK 1: Reset all paths to new random ones. ##
+   ## LAB 06 TASK 1: Reset all paths to new random ones. ##
     # not sure if it is right or not.
     if symbol == KEY.R:
         world.path.append(path(reset))
