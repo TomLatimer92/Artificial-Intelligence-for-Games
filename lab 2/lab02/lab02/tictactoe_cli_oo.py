@@ -7,10 +7,10 @@ By Clinton Woodward cwoodward@swin.edu.au
 
 Notes/Tips:
 * Exactly the same behaviour as the function based version (tictactoe_cli.py).
-* Very simple single class conversion of functions and global variables
-* Game loop still controlled by the three input/update/render methods
+* Very simple single class conversion of functions and global variables.
+* Game loop still controlled by the three input/update/render methods.
 * Internal class helper functions are marked by a leading "_"
-* All class methods also have "self" as their first parameter
+* All class methods also have "self" as their first parameter.
 * All class variables/methods need to have a leading "self." 
 '''
 
@@ -28,7 +28,7 @@ class TicTacToe(object):
     
     def __init__(self):
     
-        # global variables for game data
+        # global variables for game data.
         self.board = [' '] * 9
         
         self.players = {'x': 'Human', 'o': 'Super AI' }
@@ -38,11 +38,11 @@ class TicTacToe(object):
         # by default the human player starts. This could be random or a choice.
         self.current_player = 'x'
 
-        # Welcome ...
+        # Welcome...
         print ("Welcome to the amazing+awesome tic-tac-toe!")
-        # Show help (number) details
+        # Show help (number) details.
         self.show_human_help()
-        # show the initial board and the current player's move
+        # show the initial board and the current player's move.
         self.render_board()
         
     def _check_move(self):
@@ -78,7 +78,7 @@ class TicTacToe(object):
         return None
     
     #===========================================================================
-    # agent (human or AI) functions
+    # agent (human or AI) functions.
     
     def get_human_move(self):
         '''Get a human players raw input'''
@@ -88,10 +88,11 @@ class TicTacToe(object):
         '''Get the AI's next move'''
         # A simple dumb random move - valid or NOT! 
         # Note: It is the models responsibility to check for valid moves...
-        return randrange(9) # [0..8]
+        return randrange(9)
+        # [0..8]
     
     #===========================================================================
-    # Standard trinity of game loop methods (functions)
+    # Standard trinity of game loop methods (functions).
     
     def process_input(self):
         '''Get the current players next move.'''
@@ -107,11 +108,11 @@ class TicTacToe(object):
         have another go.
         '''
         if self._check_move():
-            # do the new move (which is stored in the instance 'move' variable)
+            # do the new move (which is stored in the instance 'move' variable).
             self.board[self.move] = self.current_player
-            # check board for winner (now that it's been updated)
+            # check board for winner (now that it's been updated).
             self.winner = self._check_for_result()
-            # change the current player (regardless of the outcome)
+            # change the current player (regardless of the outcome).
             if self.current_player == 'x':
                 self.current_player = 'o'
             else:
@@ -128,7 +129,7 @@ class TicTacToe(object):
         print ("-----------")
         print ("%s | %s | %s" % tuple(self.board[6:]))
         
-        # pretty print the current player name
+        # pretty print the current player name.
         if self.winner is None:
             print ("The current player is: %s" % self.players[self.current_player])
     
@@ -162,7 +163,7 @@ class TicTacToe(object):
 
 #==============================================================================
 # Separate the running of the game using a __name__ test. Allows the use of this
-# file as an imported module
+# file as an imported module.
 #==============================================================================
         
 if __name__ == '__main__':

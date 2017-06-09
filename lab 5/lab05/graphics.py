@@ -1,4 +1,4 @@
-'''A simple proceedural style graphics drawing wrapper.
+'''A simple proceedural style graphics drawing wrapper!
 
 Created for COS30002 AI for Games by Clinton Woodward cwoodward@swin.edu.au
 
@@ -57,7 +57,7 @@ class EasyGraphics(object):
 
     def dot(self, x=0, y=0, pos=None, color=None):
         ''' Draw a single pixel at a given location. will use pos (with x and y
-            values) if provided. Colour is (R,G,B,A) values 0.0 to 1.0 '''
+            values) if provided. Colour is (R,G,B,A) values 0.0 to 1.0. '''
         if pos is not None:
             x, y = pos.x, pos.y
         if color is not None:
@@ -89,9 +89,9 @@ class EasyGraphics(object):
     def polyline(self, points):
         if len(points) < 2: return
         pts = [(p.x, p.y) for p in points]  
-		# convert to list of tuples.
+	# convert to list of tuples.
         pts = ((GLfloat * 2)*len(pts))(*pts)  
-		# convert to GLfloat list.
+	# convert to GLfloat list.
         glPushClientAttrib(GL_CLIENT_VERTEX_ARRAY_BIT)
         glEnableClientState(GL_VERTEX_ARRAY)
         glVertexPointer(2, GL_FLOAT, 0, pts)
@@ -156,9 +156,11 @@ class EasyGraphics(object):
         glPushMatrix()
         glTranslatef(pos.x, pos.y, 0.0)
         gluDisk(self.qobj, 0, radius, 32, 1)  
-		# default style (filled? line?).
+	# default style (filled? line?).
         glPopMatrix()
-    # ----- COLOUR/STROKE STUFF -----.
+        
+    # ----- COLOUR/STROKE STUFF -----
+    
     def set_pen_color(self, color=None, name=None):
         if name is not None:
             color = COLOR_NAMES[name]
@@ -177,12 +179,15 @@ class EasyGraphics(object):
     def set_stroke(self, stroke):
         self.stroke = stroke
         glLineWidth(self.stroke)
-    # ----- TEXT METHODS -----.
+        
+    # ----- TEXT METHODS -----
+    
     def text_color(self, color=None, name=None):
         ''' Colour is a tuple (R,G,B,A) with values from 0.0 to 1.0 '''
         if name is not None:
             color = COLOR_NAMES[name]
-        self.text.color = color  #
+        self.text.color = color
+        #!
 
     def text_at_pos(self, x, y, text):
         self.text.text = text

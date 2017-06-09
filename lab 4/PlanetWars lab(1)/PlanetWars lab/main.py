@@ -4,10 +4,9 @@ Created by Michale Jensen (2011) and Clinton Woodward (2012)
 contact: cwoodward@swin.edu.au
 
 Updated 2015
-- Added pyglet graphics support
-- Added bot order rules (removed order exploit bugs/features)
-- Added multi-player support
-
+- Added pyglet graphics support.
+- Added bot order rules (removed order exploit bugs/features).
+- Added multi-player support.
 '''
 
 from planet_wars import PlanetWars
@@ -37,7 +36,6 @@ COLOR_NAMES = {
     'LIGHT_GREEN': (0.6, 1.0, 0.6, 1),
 }
 
-
 def to_rgb(a_gl_color):
     return tuple([int(x * 255) for x in a_gl_color])
 
@@ -48,12 +46,15 @@ SCREEN_SIZE = (3 * GAME_SIZE[0], GAME_SIZE[1])
 
 COLOR = {
     0: COLOR_NAMES['LIGHT_GREY'],
-    1: COLOR_NAMES['LIGHT_RED'],  # (255, 0, 0), # red
-    2: COLOR_NAMES['LIGHT_BLUE'],  # (0, 0, 255), # blue
-    3: COLOR_NAMES['LIGHT_GREEN'],  # (0, 255, 0), # green
+    1: COLOR_NAMES['LIGHT_RED'],
+    # (255, 0, 0), # red.
+    2: COLOR_NAMES['LIGHT_BLUE'],
+    # (0, 0, 255), # blue.
+    3: COLOR_NAMES['LIGHT_GREEN'],
+    # (0, 255, 0), # green.
 }
 
-# todo: these should be based on data, not magic ...
+# todo: these should be based on data, not magic...
 PLANET_MIN_R = 0.85
 PLANET_FACTOR = 0.05
 
@@ -62,7 +63,6 @@ DISPLAY = True
 IMAGES = {
     'background': 'images/space.jpg',
 }
-
 
 class ScreenPlanet(object):
 
@@ -75,7 +75,6 @@ class ScreenPlanet(object):
         self.color = color
         self.label = label
 
-
 class ScreenFleet(object):
 
     def __init__(self, pos, owner, radius, view_radius, color, label):
@@ -86,9 +85,8 @@ class ScreenFleet(object):
         self.color = color
         self.label = label
 
-
 class PlanetWarsScreenAdapter(object):
-    # handles drawing/cached pos/size of PlanetWars game instance for a GUI
+    # handles drawing/cached pos/size of PlanetWars game instance for a GUI.
 
     def __init__(self, game, circle=None, margin=20):
         self.game = game
@@ -97,46 +95,47 @@ class PlanetWarsScreenAdapter(object):
         self.margin = margin
         self.circle = circle
 
-        # images
+        # images.
         self.bk_img = resource.image(IMAGES['background'])
         self.bk_sprite = sprite.Sprite(self.bk_img)
 
     def draw(self):
-        # draw background
+        # draw background.
         #self.bk_sprite.draw()
-        # draw planets
+        # draw planets.
         for k, p in self.planets.items():
             self.circle(p.pos, p.radius, color=p.color, filled=True)
             self.circle(p.pos, p.radius, color=COLOR_NAMES['WHITE'], filled=False)
-            if p.owner != 0:  # 0 == neutral_id
+            if p.owner != 0:
+            # 0 == neutral_id.
                 self.circle(p.pos, p.view_radius, color=p.color, filled=False)
             p.label.draw()
-        # draw fleets
+        # draw fleets.
         for k, f in self.fleets.items():
             # self.circle(f.pos, f.radius, color=COLOR_NAMES['YELLOW'], filled=False)
             self.circle(f.pos, f.radius, color=f.color, filled=False)
             f.label.draw()
 
     def screen_resize(self, width, height):
-        # if the screen has been resized, update point conversion factors
+        # if the screen has been resized, update point conversion factors.
         self.max_y, self.max_x, self.min_y, self.min_x = self.game.extent
-        # get game width and height
+        # get game width and height.
         self.dx = abs(self.max_x - self.min_x)
         self.dy = abs(self.max_y - self.min_y)
-        # set display box width and height
+        # set display box width and height.
         self.display_dx = width - self.margin * 2
         self.display_dy = height - self.margin * 2
-        # get the smaller ratio (width height) for radius drawing
+        # get the smaller ratio (width height) for radius drawing.
         self.ratio = min(self.display_dx / self.dx, self.display_dy / self.dy)
 
-        # resize the background image also
+        # resize the background image also.
         self.bk_img.width = width
         self.bk_img.height = height
         self.bk_sprite = sprite.Sprite(self.bk_img)
 
     def sync_all(self, view_id=0, label_type='num_ships'):
-        # todo: only need to update label values and owner colour details of planets
-        # recache all planets/fleets
+        # todo: only need to update label values and owner colour details of planets.
+        # reach all planets/fleets.
         if view_id is 0:
             planets = self.game.planets
             fleets = self.game.fleets
@@ -144,7 +143,7 @@ class PlanetWarsScreenAdapter(object):
             planets = self.game.players[view_id].planets
             fleets = self.game.players[view_id].fleets
 
-        # Set which label_type detail to show (id, num_ships, vision etc)
+        # Set which label_type detail to show (id, num_ships, vision etc).
         for k, p in planets.items():
             self.planets[k] = self._planet_stamp(p, p.__getattribute__(label_type))
 
@@ -171,7 +170,7 @@ class PlanetWarsScreenAdapter(object):
         return ScreenFleet(pos, fleet.owner_id, radius, view_radius, color, label)
 
     def game_to_screen(self, wx, wy):
-        # convert xy values from game space to screen space
+        # convert xy values from game space to screen space.
         x = ((wx - self.min_x) / self.dx) * self.display_dx + self.margin
         y = ((wy - self.min_y) / self.dy) * self.display_dy + self.margin
         return (x, y)
@@ -180,7 +179,7 @@ class PlanetWarsScreenAdapter(object):
 class PlanetWarsWindow(window.Window):
 
     def __init__(self, **kwargs):
-        # rip out the game settings we want
+        # rip out the game settings we want.
         players = kwargs.pop('players')
         gamestate = kwargs.pop('gamestate')
         self.game = PlanetWars(gamestate)
@@ -188,7 +187,7 @@ class PlanetWarsWindow(window.Window):
             self.game.add_player(p)
         self.max_tick = kwargs.pop('max_game_length')
 
-        # set and use pyglet window settings
+        # set and use pyglet window settings.
         kwargs.update({
             'width': 500,
             'height': 500,
@@ -196,18 +195,19 @@ class PlanetWarsWindow(window.Window):
             'resizable': False,
         })
         super(PlanetWarsWindow, self).__init__(**kwargs)
-        # create a pyglet window and set glOptions
+        # create a pyglet window and set glOptions.
         glEnable(GL_BLEND)
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-        glClearColor(0., 0., 0., 1.0)  # Grey
-
-        # current "pen" colour of lines
+        glClearColor(0., 0., 0., 1.0)
+        # Grey.
+        # current "pen" colour of lines.
         self.pen_color = (1, 0, 0, 1.)
-        self.stroke = 1.0  # - thickness default
+        self.stroke = 1.0
+        # - thickness default.
         self.qobj = gluNewQuadric()
         # gluQuadricDrawStyle(self.qobj, GLU_FILL) #GLU_SILHOUETTE)
 
-        # prep the fps display and some labels
+        # prep the fps display and some labels.
         self.fps_display = clock.ClockDisplay()
         clWhite = (255, 255, 255, 255)
         self.step_label = Label('STEP', x=5, y=self.height - 20, color=clWhite)
@@ -217,12 +217,12 @@ class PlanetWarsWindow(window.Window):
         self.view_id = 0
         self.label_type = 'num_ships'
 
-        # create adaptor to help with drawing
+        # create adaptor to help with drawing.
         self.adaptor = PlanetWarsScreenAdapter(self.game, self.circle)
 
-        # prep the game (space!)
+        # prep the game (space!).
         self.reset_space()
-        # add extra event handlers we need
+        # add extra event handlers we need.
         self.add_handlers()
 
     def reset_space(self):
@@ -235,14 +235,14 @@ class PlanetWarsWindow(window.Window):
         clock.schedule_interval(self.update, 1.0 / self.fps)
 
     def update(self, args):
-        # gets called by the scheduler at the step_fps interval set
+        # gets called by the scheduler at the step_fps interval set.
         game = self.game
         if game:
             if not self.paused:
                 game.update()
                 self.adaptor.sync_all()
 
-            # update step label
+            # update step label.
             msg = 'Step:' + str(game.tick)
             if self.paused:
                 msg += ' [PAUSED]'
@@ -255,7 +255,7 @@ class PlanetWarsWindow(window.Window):
             msg += ' Show: ' + self.label_type
 
             self.step_label.text = msg
-            # Has the game ended? (Should we close?)
+            # Has the game ended? (Should we close?).
             if not self.game.is_alive() or self.game.tick >= self.max_tick:
                 self.close()
         else:
@@ -273,14 +273,15 @@ class PlanetWarsWindow(window.Window):
 
         @self.event
         def on_key_press(symbol, modifiers):
-            # Single Player View, or All View
+            # Single Player View, or All View.
             if symbol == key.BRACKETLEFT:
                 self.view_id = self.view_id - 1 if self.view_id > 1 else len(self.game.players)
             if symbol == key.BRACKETRIGHT:
                 self.view_id = self.view_id + 1 if self.view_id < len(self.game.players) else 1
-            # Everyone view
+            # Everyone view.
             elif symbol == key.A:
-                self.view_id = 0 # == "all"
+                self.view_id = 0
+                # == "all".
             # Planet attribute type to show?
             elif symbol == key.L:
                 i = self.label_type
@@ -289,13 +290,13 @@ class PlanetWarsWindow(window.Window):
             # Reset?
             elif symbol == key.R:
                 self.reset_space()
-            # Do one step
+            # Do one step.
             elif symbol == key.N:
                 self.game.update()
             # Pause toggle?
             elif symbol == key.P:
                 self.paused = not self.paused
-            # Speed up (+) or slow down (-) the sim
+            # Speed up (+) or slow down (-) the sim.
             elif symbol in [key.PLUS, key.EQUAL]:
                 self.set_fps(self.fps + 5)
             elif symbol == key.MINUS:
@@ -345,7 +346,8 @@ class PlanetWarsWindow(window.Window):
 
 if __name__ == '__main__':
     gamestate = open('./maps/map5.txt').read()
-    players = ['Blanko', 'OneMove', 'Rando']
+    players = ['MyNewBot', 'Rando']
+    # 'Blanko', 'OneMove', 'Rando', 'MyNewBot'.
     window = PlanetWarsWindow(gamestate=gamestate, players=players, max_game_length=500)
     app.run()
     window.game.logger.flush()

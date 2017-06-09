@@ -1,6 +1,7 @@
 '''A 2d world that supports agents with steering behaviour
 Created for COS30002 AI for Games by Clinton Woodward cwoodward@swin.edu.au
 '''
+
 from vector2d import Vector2D
 from matrix33 import Matrix33
 from graphics import egi
@@ -34,7 +35,7 @@ class World(object):
             egi.text_at_pos(0, 0, infotext)
 
     def wrap_around(self, pos):
-        ''' Treat world as a toroidal space. Updates parameter object pos '''
+        ''' Treat world as a toroidal space. Updates parameter object pos. '''
         max_x, max_y = self.cx, self.cy
         if pos.x > max_x:
             pos.x = pos.x - max_x
@@ -52,7 +53,7 @@ class World(object):
         wld_pts = [pt.copy() for pt in points]
         # create a transformation matrix to perform the operations.
         mat = Matrix33()
-        # scale,
+        # scale.
         mat.scale_update(scale.x, scale.y)
         # rotate.
         mat.rotate_by_vectors_update(forward, side)

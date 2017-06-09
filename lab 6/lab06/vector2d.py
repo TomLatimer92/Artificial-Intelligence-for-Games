@@ -1,17 +1,17 @@
-'''2D Vector with related methods
+'''2D Vector with related methods!
 Created for COS30002 AI for Games by Clinton Woodward cwoodward@swin.edu.au
 Updated by Steve Dower
 '''
 from math import sqrt
 from point2d import Point2D
-# Not used here, but easy way to expose it
+# Not used here, but easy way to expose it.
 
 MIN_FLOAT = 1e-300
 
 def is_equal(a, b):
     return abs(a-b) < 1e-12
 
-# Not needed, but fyi ...
+# Not needed, but fyi...
 #def PointToVector2D(pt):
 #    return Vector2D(pt.x, pt.y)
 
@@ -26,28 +26,28 @@ class Vector2D(object):
         self.y = y
 
     def zero(self):
-        ''' set x and y to zero '''
+        ''' set x and y to zero. '''
         self.x = 0.
         self.y = 0.
 
     def is_zero(self):
-        ''' return true if both x and y are zero '''
+        ''' return true if both x and y are zero. '''
         return (self.x**2 + self.y**2) < MIN_FLOAT
 
     def length(self):
-        ''' return the length of the vector '''
+        ''' return the length of the vector. '''
         x = self.x
         y = self.y
         return sqrt(x*x + y*y)
 
     def length_sq(self):
-        ''' return the squared length (avoid sqrt()) '''
+        ''' return the squared length (avoid sqrt()). '''
         x = self.x
         y = self.y
         return x*x + y*y
 
     def normalise(self):
-        ''' normalise self to a unit vector of length = 1.0 '''
+        ''' normalise self to a unit vector of length = 1.0. '''
         x = self.x
         y = self.y
         l = sqrt(x*x + y*y)
@@ -60,19 +60,19 @@ class Vector2D(object):
         return self
 
     def get_normalised(self):
-        ''' return a normalised copy of self '''
+        ''' return a normalised copy of self. '''
         result = self.copy()
         result.normalise()
         return result
 
     def dot(self, v2):
-        ''' The dot (inner) product of self and v2 vector '''
+        ''' The dot (inner) product of self and v2 vector. '''
         return self.x*v2.x + self.y*v2.y
 
     def sign(self, v2):
         ''' return +1 if v2 is clockwise of self.
-            return -1 if v2 is anti-clockwise of self
-            Assumes Y axis points down and X points right '''
+            return -1 if v2 is anti-clockwise of self.
+            Assumes Y axis points down and X points right. '''
         if self.y*v2.x > self.x*v2.y:
             return -1
         else:
@@ -83,7 +83,7 @@ class Vector2D(object):
         return Vector2D(-self.y, self.x)
 
     def truncate(self, maxlength):
-        ''' limit the length (scale x and y) to maxlength '''
+        ''' limit the length (scale x and y) to maxlength. '''
         if self.length() > maxlength:
             self.normalise()  
 	    # unit vector length = 1.0.
@@ -91,13 +91,13 @@ class Vector2D(object):
 	    # so length is 1.0 * maxlength.
 
     def distance(self, v2):
-        ''' the distance between self and v2 vector '''
+        ''' the distance between self and v2 vector. '''
         dx = v2.x - self.x
         dy = v2.y - self.y
         return sqrt(dx*dx + dy*dy)
 
     def distance_sq(self, v2):
-        ''' the squared distance between self and v2 vector '''
+        ''' the squared distance between self and v2 vector. '''
         dx = v2.x - self.x
         dy = v2.y - self.y
         return dx*dx + dy*dy
@@ -117,7 +117,7 @@ class Vector2D(object):
         return Vector2D(-self.x, -self.y)
 
     def copy(self):
-        ''' Simple copy Vector2D with self values '''
+        ''' Simple copy Vector2D with self values. '''
         return Vector2D(self.x, self.y)
 
     def __iadd__(self, rhs):  

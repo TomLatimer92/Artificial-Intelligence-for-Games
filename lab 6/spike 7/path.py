@@ -1,4 +1,4 @@
-'''Path container to support easy path following by Agents
+'''Path container to support easy path following by Agents!
 Created for COS30002 AI for Games by Clinton Woodward cwoodward@swin.edu.au
 '''
 from random import random, uniform
@@ -33,12 +33,12 @@ class Path(object):
         if num_pts > 0:
             self.create_random_path(num_pts, minx, miny, maxx, maxy)
             
-    ### current path function ###
+    ### current path function. ###
     def current_pt(self):
         ''' Return the way point of the path indicated by the current point
             index. '''
         return self._pts[self._cur_pt_idx]
-    ### end current path function ###
+    ### end current path function. ###
     
     def inc_current_pt(self):
         ''' Update the current point to the next in the path list.
@@ -52,7 +52,7 @@ class Path(object):
         ''' Return True if at the end of the path. '''
         return self._cur_pt_idx >= self._num_pts - 1
     
-    ### create random path function ###
+    ### create random path function. ###
     def create_random_path(self, num_pts, minx, miny, maxx, maxy, looped=False):
         ''' Creates random path within the rectangle described by the
             min/max values. Stores and returns path. '''
@@ -74,7 +74,7 @@ class Path(object):
         self._reset() 
 	# reset num_pts and cur_pt_idx.
         return self._pts
-        ### end create random path function ###
+        ### end create random path function. ###
     
     def add_way_pt(self, new_pt):
         ''' Add the waypoint to the end of the path.'''

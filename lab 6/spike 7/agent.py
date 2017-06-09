@@ -16,26 +16,24 @@ AGENT_MODES = {
     KEY._5: 'flee',
     KEY._6: 'pursuit',
     
-    ### New Keys ###
+    ### new Keys ###
     KEY._7: 'follow_path',
     KEY._8: 'wander',
-    ### End New Keys ###
+    ### new keys end ###
 
-    ### lab 7 new keys ###
-    Key._9: 'cohesion',
-    Key._0: 'seperation',
-    Key._q: 'alignment'
-    ### lab 7 new keys end ###
+    ### Flocking key ###
+    KEY._9: 'flocking'
+    ### Flocking Key end ###
 }
 
 class Agent(object):
     # NOTE: Class Object (not *instance*) variables!
     DECELERATION_SPEEDS = {
-        'slow': 0.9, 'normal': 0.4, 'fast': 0.01
+        'slow': 0.9, 'normal': 0.4, 'fast': 0.1
         ### ADD 'normal' and 'fast' speeds here:
     }
     # mass is here.
-    def __init__(self, world=None, scale=30.0, mass=2.0, mode='seek'):
+    def __init__(self, world=None, scale=30.0, mass=0.5, mode='seek'):
         # keep a reference to the world object.
         self.world = world
         self.mode = mode    
@@ -60,24 +58,28 @@ class Agent(object):
             Point2D(-1.0, -0.6)
         ]
 
+        ### Spike 7 definitions ###
+        self.neighbour_radius = 2.0 * scale
+        ## Spike 7 definitions end ###
+        
         ### follow path mode edit 1 ###
         self.path = Path()
         self.randomise_path()
         # <-- Doesn’t exist yet but you’ll create it.
-        self.waypoint_threshold = 0.0
+        self.waypoint_threshold = 50.0
         # <-- Work out a value for this as you test!
         ### end follow path mode edit 1 ###
 
         ### added wonder info part 2 ###
 	# NEW WANDER INFO
-	### wander details
+	### wander details.
         self.wander_target = Vector2D(1, 0)
         self.wander_dist = 1.0 * scale
         self.wander_radius = 1.0 * scale
         self.wander_jitter = 10.0 * scale
         self.bRadius = scale
         # Force and speed limiting code
-        # max speed is here
+        # max speed is here.
         # limits?
         self.max_speed = 20.0 * scale
         self.max_force = 500.0
@@ -87,7 +89,7 @@ class Agent(object):
         self.show_info = False
 
     ### Create randomise path method ###
-    def randomise_path(self, num_pts=1, minx=1, miny=1, maxx=1, maxy=1):
+    def randomise_path(self, num_pts=5, minx=0, miny=0, maxx=600, maxy=600):
                 cx = self.world.cx
                 # width.
                 cy = self.world.cy  
@@ -98,9 +100,12 @@ class Agent(object):
                 # you have to figure out the parameters.
     ### end creation of randomise path ###
 	
-    def calculate(self):
+    def calculate(self, delta):
         # calculate the current steering force.
+        self.neighbour(self.world.agents, 100.0)
         mode = self.mode
+        SteeringForce = Vector2D()
+        
         if mode == 'seek':
             force = self.seek(self.world.target)
         elif mode == 'arrive_slow':
@@ -116,45 +121,54 @@ class Agent(object):
             
         ### added follow path mode ###
         elif mode == 'follow_path':
-            force = self.follow_path(self.world.target)
+            force = self.follow_path(self)
         ### added follow path mode end ###
 
         ### added wonder mode ###
         elif mode == 'wander':
             force = self.wander(delta)
         ### end added wonder path mode ###
+
+        ### New modes Spike 7 ###
+        elif mode == 'flocking':
+            force = self.flocking(self.world.agents, delta)
+        ### New mode end Spike 7 ###
             
         else:
             force = Vector2D()
         self.force = force
         return force
 
- # This is most likely wrong.
     def follow_path(self, path):
-        self.path = Path()
-        
-        # If heading to final point (is_finished?)
-        if Path.is_finished: 
-        # Return a slow down force vector (Arrive)
-            return force == self.arrive(self.world.target, 'slow')
-            return Vector2D
+        target = self.path.current_pt()
+        # If heading to final point (is_finished?).
+        if self.path.is_finished(): 
+        # Return a slow down force vector (Arrive).
+            target == Vector2D(self.path.current_pt().x, self.path.current_pt().y)
+            return self.arrive(target, 'slow')
         # Else
-        # If within threshold distance of current way point, inc to next in path
-        if current_pt == is_not_finsihed and self.waypoint_threshold == current_pt:
-        # Return a force vector to head to current point at full speed (Seek)
-            return force == self.seek(self.world.target, 'seek')
-            return Vector2D
-        
+        else:
+            dist = target - self.pos
+        # If within threshold distance of current way point, inc to next in path.
+        if dist.length() < self.waypoint_threshold:
+            self.path.inc_current_pt()   
+        # Return a force vector to head to current point at full speed (Seek).
+            return self.arrive(target, 'fast')
+        else:
+            return self.seek(target)
+
     def update(self, delta):
         ''' update vehicle position and orientation '''
         # calculate and set self.force to be applied
-        ## force = self.calculate()
-        force = self.calculate()
+        # force = self.calculate()
         # <-- delta needed for wander (delta)
         ## limit force? <-- for wander
-        #...
+        force = self.calculate(delta)
+        force.truncate(self.max_force)
+        # <-- new force limiting code
         # determine the new accelteration
-        self.accel = force / self.mass  # not needed if mass = 1.0
+        self.accel = force / self.mass
+        # not needed if mass = 1.0
         # new velocity
         self.vel += self.accel * delta
         # check for limits of new velocity
@@ -186,10 +200,13 @@ class Agent(object):
         ### end wander addtion part 1 ###
 
     def render(self, color=None):
-        ''' Draw the triangle agent with color'''		
+        # graphics,
+        ''' Draw the triangle agent with color'''
+        # self.graphics = Graphics() 
         # draw the path if it exists and the mode is follow.
         if self.mode == 'follow_path':
-            pass
+            self.path.render()
+            pass 
         # draw the ship.
         egi.set_pen_color(name=self.color)
         pts = self.world.transform_points(self.vehicle_shape, self.pos,
@@ -254,6 +271,21 @@ class Agent(object):
             towards that point to intercept it. '''
         ## OPTIONAL EXTRA... pursuit (you'll need something to pursue!).
         # desired_vel = (evader - self.pos).normalise() * self.max_speed
+        bot = self.bot
+        # assumes that evader is a Vehicle
+        toEvader = evader.pos - bot.pos
+        relativeHeading = bot.heading.dot(evader.heading)
+        # simple out: if target is ahead and facing us, head straight to it
+        if (toEvader.dot(bot.heading)>0) and (relativeHeading < 0.95):
+        # acos(0.95)=18 degrees
+            return self._seek(evader.pos)
+        # time proportional to distance, inversely proportional to sum of velocities
+        lookAheadTime = toEvader.length() / (bot.max_speed + evader.speed())
+        # turn rate delay? dot product = 1 if ahead, -1 if behind.
+        lookAheadTime += (1 - bot.heading.dot(evader))*- bot.turnRate
+        # Seek the predicted location (using look-ahead time)
+        lookAheadPos = evader.pos + evader.velocity * lookAheadTime
+        return Seek(lookAheadPos)
         return Vector2D(0, 0)
 
     ### create wonder function for agent class ###	
@@ -278,3 +310,83 @@ class Agent(object):
         return self.seek(wld_target)
         ## end wander function for agent class ###
 
+    ### Cohesion function ###
+    def cohesion(self):
+        AvgMass = Vector2D()
+        SteeringForce = Vector2D()
+        AvgCount = 0
+
+        for agent in self.world.agents:
+            if agent != self and agent.Tagged:
+                AvgMass += agent.pos
+                AvgCount += 1
+
+        if AvgCount > 0:
+            AvgMass /= float(AvgCount)
+            SteeringForce = self.seek(AvgMass)
+
+        return SteeringForce
+    ### End Cohesion Function ###
+
+    ### Seperation Function ###
+    def seperation(self):
+        SteeringForce = Vector2D()
+        for agent in self.world.agents:
+            # don’t include self, only include neighbours (already tagged)
+            if agent != self and agent.Tagged:
+                gap = self.pos - agent.pos
+                # normalise
+##                SteeringForce.y += agent.y / self.pos.y
+##                SteeringForce.x += agent.x / self.pos.x
+##                SteeringForce * -1
+                # scale based on inverse distance to neighbour
+                SteeringForce += (gap.normalise() / gap.length())
+                
+        return SteeringForce
+    ### End seperation function ###
+
+    ### Alignment ###
+    def alignment(self):
+        AvgHeading = Vector2D()
+        AvgCount = 0
+
+        for agent in self.world.agents:
+            if agent != self and agent.Tagged:
+                AvgHeading += agent.heading
+                AvgCount += 1
+
+        if AvgCount > 0:
+            AvgHeading /= float(AvgCount)
+            AvgHeading -= self.heading
+
+        return AvgHeading
+    ### Alignment End ###              
+
+    ### Neighbourhood ###
+    def neighbour(self, agents, radius):
+        # lets find 'em
+        for agent in agents:
+            # untag all first
+            agent.Tagged = False
+            # get the vector between us
+            to = self.pos - agent.pos
+            # take into account the bounding radius
+            gap = radius + agent.bRadius
+            #if statement
+            if to.length_sq() < gap**2:
+                agent.Tagged = True      
+    ### Neighbourhood End ###
+
+    ### flocking ###
+    def flocking(self, agents, delta):
+        # self.seperation(agents) + self.cohesion(agents) + self.alignment(agents) + self.wander(world)
+        # self.follow_path(path) + WallAvoidance
+        force = Vector2D()
+        # add a bit of each force * weight
+        force += self.alignment() * self.world.alignment_wt
+        force += self.seperation() * self.world.seperation_wt
+        force += self.cohesion() * self.world.cohesion_wt
+        force += self.wander(delta) * self.world.wander_wt
+        
+        return force
+    ### Flocking end ###

@@ -1,7 +1,8 @@
-'''Autonomous Agent Movement: Seek, Arrive and Flee
+'''Autonomous Agent Movement: Seek, Arrive and Flee!
 Created for COS30002 AI for Games, Lab 05
 By Clinton Woodward cwoodward@swin.edu.au
 '''
+
 from graphics import egi, KEY
 from pyglet import window, clock
 from pyglet.gl import *
@@ -21,8 +22,8 @@ def on_key_press(symbol, modifiers):
     elif symbol in AGENT_MODES:
         for agent in world.agents:
             agent.mode = AGENT_MODES[symbol]
-
-    # Add agent here. (duplicate)
+    # Add agent here. (duplicate).
+    # seek and another mode can be used at the same time.
     if symbol == KEY.C:
         world.agents.append(Agent(world))
 

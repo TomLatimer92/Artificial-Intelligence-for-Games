@@ -1,4 +1,4 @@
-'''A 2d world that supports agents with steering behaviour
+'''A 2d world that supports agents with steering behaviour!
 Created for COS30002 AI for Games by Clinton Woodward cwoodward@swin.edu.au
 '''
 from vector2d import Vector2D
@@ -34,7 +34,7 @@ class World(object):
             egi.text_at_pos(0, 0, infotext)
 
     def wrap_around(self, pos):
-        ''' Treat world as a toroidal space. Updates parameter object pos '''
+        ''' Treat world as a toroidal space. Updates parameter object pos. '''
         max_x, max_y = self.cx, self.cy
         if pos.x > max_x:
             pos.x = pos.x - max_x
@@ -64,7 +64,7 @@ class World(object):
         # done.
         return wld_pts
 
-    ### added transform point function in world file ###		
+    ### added transform point function in world file. ###		
     def transform_point(self, point, pos, forward, side):
         ''' Transform the given single point, using the provided position,
         and direction (forward and side unit vectors), to object world space. '''
@@ -80,4 +80,4 @@ class World(object):
         mat.transform_vector2d(wld_pt)
         # Done
         return wld_pt
-    ### end transform point function in world file ###
+    ### end transform point function in world file. ###

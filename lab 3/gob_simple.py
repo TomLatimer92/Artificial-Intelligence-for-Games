@@ -6,8 +6,8 @@ Works with Python 3+
 Please don't share this code without permission.
 
 Simple decision approach.
-* Choose the most pressing goal (highest insistence value)
-* Find the action that fulfills this "goal" the most (ideally?, completely?)
+* Choose the most pressing goal (highest insistence value).
+* Find the action that fulfills this "goal" the most (ideally?, completely?).
 
 Goal: Eat (initially = 4)
 Goal: Sleep (initially = 3)
@@ -20,14 +20,15 @@ Action: sleep on sofa (Sleep -= 2)
 Notes:
 * This version is simply based on dictionaries and functions.
 '''
+
 VERBOSE = True
 
-# Global goals with initial values
+# Global goals with initial values.
 goals = {'Eat': 4,
          'Sleep': 3,
          }
 
-# Global (read-only) actions and effects
+# Global (read-only) actions and effects.
 actions = {
     'get raw food': { 'Eat': -3 },
     'get snack': { 'Eat': -2 },
@@ -54,7 +55,7 @@ def action_utility(action, goal):
     beneficial.
     '''
 	
-    ### Simple version - the utility is the change to the specified goal
+    ### Simple version - the utility is the change to the specified goal.
     if goal in actions[action]:
         # Is the goal affected by the specified action?
         return -actions[action][goal]
@@ -64,10 +65,10 @@ def action_utility(action, goal):
 
     ### Extension
     ###
-    ###  - return a higher utility for actions that don't change our goal past zero
-    ###  and/or
-    ###  - take any other (positive or negative) effects of the action into account
-    ###    (you will need to add some other effects to 'actions')
+    ###  - return a higher utility for actions that don't change our goal past zero.
+    ###  and/or.
+    ###  - take any other (positive or negative) effects of the action into account.
+    ###    (you will need to add some other effects to 'actions').
 
 def choose_action():
     '''Return the best action to respond to the current most insistent goal.
@@ -92,13 +93,13 @@ def choose_action():
     for key, value in actions.items(): 
         # Note, at this point: 
         #  - "key" is the action as a string, 
-        #  - "value" is a dict of goal changes (see line 35)
+        #  - "value" is a dict of goal changes (see line 35).
 
         # Does this action change the "best goal" we need to change?
         if best_goal in value:
-            # Do we currently have a "best action" to try? If not, use this one
+            # Do we currently have a "best action" to try? If not, use this one.
             if best_action is None:
-            ### 1. store the "key" as the current best_action
+            ### 1. store the "key" as the current best_action.
                 best_action = key;
             ### 2. use the "action_utility" function to find the best_utility value of this best_action
                 # best_action, best_action_value = max(list(goals.items()), key-lambda item: item[1];
@@ -118,7 +119,7 @@ def choose_action():
                 # for best_action in utility:
                 #   if utility > utility_value:
                 #       return utility, action;
-    # Return the "best action"
+    # Return the "best action".
     return best_action
 
 #==============================================================================
@@ -136,10 +137,10 @@ def run_until_all_goals_zero():
     running = True
     while running:
         print('GOALS:', goals)
-        # What is the best action
+        # What is the best action.
         action = choose_action()
         print('BEST ACTION:', action)
-        # Apply the best action
+        # Apply the best action.
         apply_action(action)
         print('NEW GOALS:', goals)
         # Stop?
@@ -151,4 +152,3 @@ def run_until_all_goals_zero():
 
 if __name__ == '__main__':
     run_until_all_goals_zero()
-

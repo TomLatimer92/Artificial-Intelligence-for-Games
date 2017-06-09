@@ -1,4 +1,4 @@
-'''A 2d world that supports agents with steering behaviour
+'''A 2d world that supports agents with steering behaviour!
 Created for COS30002 AI for Games by Clinton Woodward cwoodward@swin.edu.au
 '''
 from vector2d import Vector2D
@@ -14,6 +14,11 @@ class World(object):
         self.agents = []
         self.paused = True
         self.show_info = True
+
+        self.wander_wt = 0.0 # 0 is fine
+        self.alignment_wt = 10.0 # 10 preferable value
+        self.cohesion_wt = 50.0 # 50  preferable value
+        self.seperation_wt = 170.0 # 170 preferable value
 
     def update(self, delta):
         if not self.paused:
@@ -34,7 +39,7 @@ class World(object):
             egi.text_at_pos(0, 0, infotext)
 
     def wrap_around(self, pos):
-        ''' Treat world as a toroidal space. Updates parameter object pos '''
+        ''' Treat world as a toroidal space. Updates parameter object pos. '''
         max_x, max_y = self.cx, self.cy
         if pos.x > max_x:
             pos.x = pos.x - max_x
@@ -64,20 +69,20 @@ class World(object):
         # done.
         return wld_pts
 
-    ### added transform point function in world file ###		
+    ### added transform point function in world file. ###		
     def transform_point(self, point, pos, forward, side):
         ''' Transform the given single point, using the provided position,
         and direction (forward and side unit vectors), to object world space. '''
-        # make a copy of the original point (so we don't trash it).
+        # make a copy of the original point (so we don't trash it)
         wld_pt = point.copy()
-        # create a transformation matrix to perform the operations.
+        # create a transformation matrix to perform the operations
         mat = Matrix33()
-        # Rotate.
+        # rotate
         mat.rotate_by_vectors_update(forward, side)
-        # And translate.
+        # and translate
         mat.translate_update(pos.x, pos.y)
-        # Now transform the point (in place).
+        # now transform the point (in place)
         mat.transform_vector2d(wld_pt)
-        # Done
+        # done
         return wld_pt
-    ### end transform point function in world file ###
+        ### end transform point function in world file. ###

@@ -13,7 +13,6 @@ class Logger(object):
          - player_id # player log details, one file for each player.
 
         If messages have not been logged the corresponding file is not created.
-
     '''
 
     def __init__(self, filename_pattern):

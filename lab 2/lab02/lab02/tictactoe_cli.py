@@ -8,36 +8,36 @@ Notes:
 * Each function has a description string -- read to know more.
 * Overall game flow follows a standard game loop trinity: 
     - process_input() # from the current player (human/AI)
-    - update_mode()   # check the players input, then update the game world
-    - render_board()  # draw the current game board
+    - update_mode()   # check the players input, then update the game world.
+    - render_board()  # draw the current game board.
 * Global variable (oh no!) are used to store and share game related data.
 
 If you want to create your own AI it is suggested that you:
 * Copy the get_ai_move function and rename it.
-* Write you own new fancy AI thinking code
+* Write you own new fancy AI thinking code.
 * Update the "process_input" function to call your new "get_ai_move" code.
 
 Want OO? There's another version of this code. Same functions, nice class.
 '''
 
 from random import randrange
-# Possible win states
-# static game data - doesn't change (hence immutable tuple data type)
+# Possible win states.
+# static game data - doesn't change (hence immutable tuple data type).
 WIN_SET = ((0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6), 
            (1, 4, 7), (2, 5, 8), (0, 4, 8), (2, 4, 6))
 
-# global variables for game data
+# global variables for game data.
 board = [' '] * 9
 current_player = ''
-# 'x' or 'o' for first and second player
-players = {'x': 'Human', 'o': 'Super AI' }
+# 'x' or 'o' for first and second player.
+players = {'x': 'Human', 'o': 'Super AI'}
 winner = None
 move = None
 # aesthetics...
 HR = '-' * 40
 
 #==============================================================================
-# Game model functions  
+# Game model functions.
     
 def check_move():
     '''This function will return True if ``move`` is valid (in the board range 
@@ -63,7 +63,7 @@ def check_for_result():
     for row in WIN_SET:
         if board[row[0]] == board[row[1]] == board[row[2]] != ' ':
             return board[row[0]]
-	    # return an 'x' or 'o' to indicate winner
+	    # return an 'x' or 'o' to indicate winner.
 
     if ' ' not in board:
         return 'tie'
@@ -71,7 +71,7 @@ def check_for_result():
     return None
 
 #==============================================================================
-# agent (human or AI) functions
+# agent (human or AI) functions.
 
 def get_human_move():
     '''Get a human players raw input. Returns None if a number is not entered.'''
@@ -87,7 +87,7 @@ def get_human_move():
 #     return randrange(9)
 
 def get_ai_move_2():
-#     '''Get the AI's 2 next move'''
+#   '''Get the AI's 2 next move'''
 # check the current results.
     if check_for_result():
     # return result.
@@ -115,11 +115,11 @@ def get_ai_move():
     return randrange(9)
 
 #==============================================================================
-# Standard trinity of game loop methods (functions)
+# Standard trinity of game loop methods (functions).
 
 def process_input():
     '''Get the current players next move.'''
-    # save the next move into a global variable
+    # save the next move into a global variable.
     global move
     if current_player == 'x':
       move = get_human_move()
@@ -136,11 +136,11 @@ def update_model():
     global winner, current_player
     
     if check_move():
-        # do the new move (which is stored in the global 'move' variable)
+        # do the new move (which is stored in the global 'move' variable).
         board[move] = current_player
-        # check board for winner (now that it's been updated)
+        # check board for winner (now that it's been updated).
         winner = check_for_result()
-        # change the current player (regardless of the outcome)
+        # change the current player (regardless of the outcome).
         if current_player == 'x':
             current_player = 'o'
         else:
@@ -156,7 +156,7 @@ def render_board():
     print ("-----------")
     print ("%s | %s | %s " % tuple(board[6:]))
     
-    # pretty print the current player name
+    # pretty print the current player name.
     if winner is None:
         print ("The current player is: %s" % players[current_player])
 
@@ -179,7 +179,7 @@ The number corresponds to a board position as illustrated:
 
 #==============================================================================
 # Separate the running of the game using a __name__ test. Allows the use of this
-# file as an imported module
+# file as an imported module.
 #==============================================================================
 
 if __name__ == '__main__':
@@ -190,16 +190,16 @@ if __name__ == '__main__':
     # by default the human player starts. This could be random or a choice.
     current_player = "x"
     
-    # show the initial board and the current player's move
+    # show the initial board and the current player's move.
     render_board()
     
-    # Standard game loop structure
+    # Standard game loop structure.
     while winner is None:
         process_input()
         update_model()
         render_board()
 
-    # Some pretty messages for the result
+    # Some pretty messages for the result.
     print (HR)
     if winner == ("tie"):
         print ("TIE!")
@@ -207,5 +207,3 @@ if __name__ == '__main__':
         print ("%s is the WINNER!!!" % players[winner])
     print (HR)    
     print ("Game over. Goodbye")
-
-    

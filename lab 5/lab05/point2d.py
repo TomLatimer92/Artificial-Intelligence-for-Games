@@ -1,6 +1,7 @@
-'''2D Point
+'''2D Point!
 Created for COS30002 AI for Games by Clinton Woodward cwoodward@swin.edu.au
 '''
+
 class Point2D(object):
 
     __slots__ = ('x', 'y')

@@ -1,7 +1,8 @@
-'''3x3 matrix class for 2d operations on 2d points
+'''3x3 matrix class for 2d operations on 2d points!
 Created for COS30002 AI for Games by Clinton Woodward cwoodward@swin.edu.au
 Updated by Steve Dower
 '''
+
 from math import cos, sin
 
 class Matrix33(object):
@@ -20,25 +21,25 @@ class Matrix33(object):
         return self * Matrix33([1., 0., 0., 0., 1., 0., x, y, 1.])
 
     def translate_update(self, x, y):
-        '''Update self (matrix) with a translation amount of x,y'''
+        '''Update self (matrix) with a translation amount of x,y.'''
         self._fast_imul(Matrix33([1., 0., 0., 0., 1., 0., x, y, 1.]))
 
     def scale(self, xscale, yscale):
-        '''Returns this matrix scaled by xscale and yscale'''
+        '''Returns this matrix scaled by xscale and yscale.'''
         return self * Matrix33([xscale, 0., 0., 0., yscale, 0., 0., 0., 1.])
 
     def scale_update(self, xscale, yscale):
-        '''Update self with scale amounts of xscale and yscale'''
+        '''Update self with scale amounts of xscale and yscale.'''
         self._fast_imul(Matrix33([xscale, 0., 0., 0., yscale, 0., 0., 0., 1.]))
 
     def rotate(self, rads):
-        '''Returns this matrix rotated by rad (radians)'''
+        '''Returns this matrix rotated by rad (radians).'''
         sin_r = sin(rads)
         cos_r = cos(rads)
         return self * Matrix33([cos_r, sin_r, 0., -sin_r, cos_r, 0., 0., 0., 1.])
 
     def rotate_update(self, rads):
-        '''Update self with rotation amount of rad (radians)'''
+        '''Update self with rotation amount of rad (radians).'''
         sin_r = sin(rads)
         cos_r = cos(rads)
         self._fast_imul(Matrix33([cos_r, sin_r, 0., -sin_r, cos_r, 0., 0., 0., 1.]))
@@ -52,8 +53,7 @@ class Matrix33(object):
         self._fast_imul(Matrix33([fwd.x, fwd.y, 0., side.x, side.y, 0., 0., 0., 1.]))
 
     def transform_vector2d_list(self, points):
-        ''' Apply self as a transformation matrix to the provided collection
-        of Vector2D points '''
+        ''' Apply self as a transformation matrix to the provided collection of Vector2D points. '''
         a11, a12, a13, a21, a22, a23, a31, a32, a33 = self._m
         # apply self matrix as a transformation to each pt's coordinates.
         for pt in points:
@@ -63,7 +63,7 @@ class Matrix33(object):
             pt.y = tmp_y
 
     def transform_vector2d(self, pt):
-        ''' Apply self as a transformation matrix to a single point '''
+        ''' Apply self as a transformation matrix to a single point. '''
         a11, a12, a13, a21, a22, a23, a31, a32, a33 = self._m
         # apply self matrix as a transformation to pt's coordinates.
         tmp_x = a11*pt.x + a21*pt.y + a31
@@ -73,7 +73,7 @@ class Matrix33(object):
 
     def __mul__(self, rhs):  
 	# the self * rhs operator.
-        ''' 3x3 matrix matrix multiplication. Rarely used however...'''
+        ''' 3x3 matrix matrix multiplication. Rarely used however... '''
         a11, a12, a13,  a21, a22, a23,  a31, a32, a33 = self._m
         b11, b12, b13,  b21, b22, b23,  b31, b32, b33 = rhs._m
 
@@ -117,7 +117,7 @@ class Matrix33(object):
 	# the *= operator.
         ''' Fast 3x3 matrix multiplication result applied to self.
             Because column 3 is always 0,0,1 for translate, scale and rotate
-            we can reduce this operation for these cases.'''
+            we can reduce this operation for these cases. '''
         a11, a12, a13,  a21, a22, a23,  a31, a32, a33 = self._m
         #         0.0             0.0             1.0.
         b11, b12, b13,  b21, b22, b23,  b31, b32, b33 = rhs._m

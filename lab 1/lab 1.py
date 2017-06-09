@@ -2,7 +2,7 @@ import time
 # There is no section as to where the states and other variables should go.
 # It is recommended to insert them at the top of the page like any other oop language.
 
-# Variables
+# Variables.
 Health = 20
 Damage = 0
 Block = False
@@ -11,7 +11,7 @@ Block = False
 states = ['Defence','Attack','Support']
 Current_State = 'Attack'
 
-# Other Variables
+# Other Variables.
 Running = True
 Max_Limit = 10
 Game_Time = 0
@@ -24,12 +24,12 @@ while Running:
     print("Damage Taken:", Damage)
     print("Time:", Game_Time)
     
-    # Defence: Reduces damage, Health still decreases
+    # Defence: Reduces damage, Health still decreases.
     if Current_State is 'Defence' :
-        # Do things for this state
+        # Do things for this state.
         print("Blocking")
         Block = True
-        # Check for change state
+        # Check for change state.
         if Block is True:
             print("Blocked Attack")
             Damage += 5
@@ -41,22 +41,22 @@ while Running:
     # elif Health in range(1,5):
         print ("Change to support state")
         Current_State = 'Support'
-        # Do things for this state
+        # Do things for this state.
         Damage += 5
         Health += 5
         print("Healing Player...")
-        # Check for change state
+        # Check for change state.
         # if Health is 20:
         Current_State = 'Attack'
         # if Health < 20:
         # Current_State = 'Defence'
 
-   # Attack: Attacks Defending player, causes damage
+   # Attack: Attacks Defending player, causes damage.
     elif Current_State is 'Attack':
-        # Do things for this state
+        # Do things for this state.
         Health -= 5
         print("Attacking Defending Player")
-        # Check for change state
+        # Check for change state.
         # if Health is 20:
         Current_State = 'Defence'
         # if Health < 20:
@@ -67,7 +67,7 @@ while Running:
         print("AH! BROKEN")
         die() 
 		
-    # Check if the game has finished
+    # Check if the game has finished.
     if Game_Time > Max_Limit:
         Running = False
         break
@@ -83,6 +83,3 @@ while Running:
 		
 # Print conclusion to loop.
 print('-- The End --')
-
-
-    

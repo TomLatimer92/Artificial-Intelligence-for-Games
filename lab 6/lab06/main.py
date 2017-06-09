@@ -32,9 +32,9 @@ def on_key_press(symbol, modifiers):
     ## LAB 06 TASK 1: Reset all paths to new random ones. ##
     # not sure if it is right or not.
     if symbol == KEY.R:
-        world.path.append(path(reset))
-        # self.reset_world()
-        # world.
+        for agent in world.agents:
+            agent.randomise_path()
+            # world.
     ## end R key implementation ##
         
     # Toggle debug force line info on the agent.
